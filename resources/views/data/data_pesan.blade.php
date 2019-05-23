@@ -10,7 +10,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
-              Data Produk</div>
+              Data Pesan</div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">

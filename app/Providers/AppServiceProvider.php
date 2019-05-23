@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use App\DetailPesan;
+use App\Observers\DetailObeservers;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
+        DetailPesan::observe(DetailObeservers::class);
     }
 }

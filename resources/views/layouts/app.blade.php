@@ -23,7 +23,15 @@
   <link href="{{ asset('assets/css/sb-admin.css')}}" rel="stylesheet">
 
   <script src="{{asset('js/app.js')}}"></script>
-
+  <style>
+    .scroll{
+      overflow-y: scroll;
+      overflow-x: auto;
+      border: 1px solid lightgrey;
+      border-radius: 3px;
+      height: 556px;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -196,19 +204,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
   @yield('js');
   <script>
-    $(document).ready(function(){
-      $.ajax({
-        type :"GET",
-        url : "/getCity",
-        dataType:"json",
-        success:function(data){
-          console.log(data);
-        },
-        error:function(data){
-          console.log(data);
-        }
-      })
-    })
+    // $(document).ready(function(){
+    //   $.ajax({
+    //     type :"GET",
+    //     url : "/getCity",
+    //     dataType:"json",
+    //     success:function(data){
+    //       console.log(data);
+    //     },
+    //     error:function(data){
+    //       console.log(data);
+    //     }
+    //   })
+    // })
   </script>
 </body>
 
