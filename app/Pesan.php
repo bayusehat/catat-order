@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Pesan extends Model
 {
     protected $table = 'ct_penjualan';
+    protected $guarder = [];
+    public $timestamps = false;
 }

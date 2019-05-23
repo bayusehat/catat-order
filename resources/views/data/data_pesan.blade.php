@@ -14,7 +14,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <a href="/tambahproduk" class="btn btn-success" style="float:right"><i class="fa fa-plus"></i></a>
+                        <a href="/tambahPesan" class="btn btn-success" style="float:right"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
             <hr>

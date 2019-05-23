@@ -20,6 +20,23 @@ class PesanController extends Controller
         return view('data.data_pesan',compact('pesans','title'));
     }
 
+    public function searchProduk(Request $request)
+    {
+        $produk = Product::select('*')->where('nama_produk','LIKE',$request->searchProduk.'%')->get();
+        $output = '';
+        if(count($produk) >0){
+          $output .= '<ul class="list-group" style="display: block; position: relative; z-index: 1">';
+            foreach ($produk as  $row) {
+              $output .= '<a href="javascript:void(0)" data-id="'.$row->id_produk.'"><li class="list-group-item">'.$row->nama_produk.'</li></a>';
+            }
+          $output .= "</ul>";
+        }else{
+          $output .= '<a href="javascript:void(0)"><li class="list-group-item">Produk tidak ditemukan</li></a>';
+        }
+
+        return $output;
+    }
+
     public function getCity()
     {
         $curl = curl_init();
@@ -41,11 +58,11 @@ class PesanController extends Controller
 
 		curl_close($curl);
 
-		if ($err) {
-		  return "cURL Error #:" . $err;
-		}else {
-		  return json_decode($response,true);
-		}
+      if ($err) {
+        return "cURL Error #:" . $err;
+      }else {
+        return json_decode($response,true);
+      }
     }
 
     /**
@@ -55,7 +72,8 @@ class PesanController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Tambah Pesanan";
+        return view('create.add_pesan',compact('title'));
     }
 
     /**
