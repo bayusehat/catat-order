@@ -13,9 +13,9 @@
             <i class="fas fa-table"></i>
               Tambah Pesanan</div>
             <div class="card-body">
-                <form method="POST" action="/addPesan" id="formAddPesanan">
-                    @csrf
+                <form method="POST" id="formAddPesanan">
                     @method('POST')
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
@@ -85,6 +85,9 @@
 @section('js')
     <script>
         var i = 0;
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        console.log(csrf_token);
+
         $('#tujuan').select2({
         theme:'bootstrap',
         placeholder: 'Pilih Tujuan',
@@ -170,32 +173,32 @@
         $(this).closest("tr").remove();
     });
 
-    // $("#btnAddPesanan").click(function(event){
-    //     event.preventDefault();
-    //     var formData = $('form#formAddPesan').serialize();
-    //     var token = $("input[name='_token']").val();
-    //     var conf = confirm('Apakah anda yakin untuk menyimpan?');
+    $("#btnAddPesanan").click(function(event){
+        event.preventDefault();
+        var formdata= $('form').serialize();
+        var token = $("input[name='_token']").val();
+        var conf = confirm('Apakah anda yakin untuk menyimpan?');
 
-    //     if(conf){
-    //         $.ajax({
-    //             type:"POST",
-    //             url:"/addPesan",
-    //             dataType:"json",
-    //             data : {
-    //                 frm : formData,
-    //                 _token: token
-    //             },
-    //             success:function(data){
-    //                 alert('Order saved');
-    //                 window.location.reload();
-    //             },
-    //             error:function(data){
-    //                 alert(data.msg);
-    //             }
-    //         })
-    //     }else{
+        if(conf){
+            $.ajaxSetup({
+                headers:{'X-CSRF-TOKEN' : csrf_token}
+            });
+            $.ajax({
+                type:"POST",
+                url:"/addPesan",
+                dataType:"json",
+                data : formdata,
+                success:function(data){
+                    alert('Order saved');
+                    window.location.reload();
+                },
+                error:function(data){
+                    alert(data.msg);
+                }
+            })
+        }else{
 
-    //     }
-    // })
+        }
+    })
     </script>
 @endsection

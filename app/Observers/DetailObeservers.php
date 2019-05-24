@@ -8,14 +8,9 @@ class DetailObeservers
 {
    private function generateTotal($detailPesan){
        $id_penjualan = $detailPesan->id_penjualan;
-       $detail_penjualan = DetailPesan::where('id_penjualan',$id_penjualan)->get();
-
-       $total = $detail_penjualan->sum(function($i){
-            return $i->subtotal;
-       });
-
+       $detail_penjualan = DetailPesan::where('id_penjualan',$id_penjualan)->sum('subtotal');
        Pesan::where('id_penjualan',$id_penjualan)->update([
-           'total' => $total
+           'total' => $detail_penjualan
        ]);
    }
 

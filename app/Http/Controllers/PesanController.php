@@ -28,16 +28,20 @@ class PesanController extends Controller
         $output = '';
         if(count($produk) >0){
             foreach ($produk as  $row) {
-              $output .= '<li>
-                    <a href="javascript:void(0)" 
-                      class="list" 
+              $output .= 
+              '<li>
+                  <a href="javascript:void(0)" 
+                    class="list" 
                       style="display:block;cursor:pointer" 
                       data-id="'.$row->id_produk.'" 
                       data-kode="'.$row->kode_produk.'"
                       data-nama="'.$row->nama_produk.'"
                       data-harga="'.$row->harga_jual.'"
                       data-profit="'.$row->profit.'"
-                      onclick="addToTable(this);">'.$row->nama_produk.'</a></li>';
+                      onclick="addToTable(this);">
+                    '.$row->nama_produk.'
+                  </a>
+                </li>';
             }
         }else{
           $output .= '<li>Produk tidak ditemukan</li>';
@@ -104,7 +108,7 @@ class PesanController extends Controller
           'id_tujuan' => $request->tujuan,
           'type_tujuan' => '1',
           'tujuan' => '1',
-          'weight' => '1',
+          'weight' => '1000',
           'ongkos_kirim' => '1',
           'id_user' => '1',
           'total' => '0'
@@ -128,8 +132,13 @@ class PesanController extends Controller
         }
 
         $penjualan_detail = DetailPesan::insert($detail);
-        
-        $this->generate_total($id);
+
+        $temp_total = $this->generate_total($id);
+        $ongkir = $this->getCost($id,$request->tujuan,1000);
+
+        Pesan::where('id_penjualan',$id)->update([
+          'total' => $temp_total+$ongkir
+        ]);
 
         $data['data'] = $penjualan;
         $data['data']['detail'] = $detail;
@@ -141,9 +150,46 @@ class PesanController extends Controller
     public function generate_total($id_penjualan)
     {
         $total = DetailPesan::where('id_penjualan',$id_penjualan)->sum('subtotal');
-        Pesan::where('id_penjualan',$id_penjualan)->update([
+        $temp = Pesan::where('id_penjualan',$id_penjualan)->update([
           'total' => $total
         ]);
+
+        return $total;
+    }
+
+    public function getCost($id_penjualan,$kota_tujuan,$weight)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "origin=444&destination=$kota_tujuan&weight=$weight&courier=jne",
+        CURLOPT_HTTPHEADER => array(
+          "content-type: application/x-www-form-urlencoded",
+          "key:3275a8000010695a45f9ea333d0145f9"
+        ),
+      ));
+  
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+  
+      curl_close($curl);
+  
+      if ($err) {
+        echo "cURL Error #:" . $err;
+      } else {
+        $hasil = json_decode($response,true);
+          $ongkir = $hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['value'];
+            $temp = Pesan::where('id_penjualan',$id_penjualan)->update([
+              'ongkos_kirim' => $ongkir
+          ]);
+        return $ongkir;
+      }
     }
 
     /**
