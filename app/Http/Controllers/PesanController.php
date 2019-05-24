@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Pesan;
+use App\Product;
+use App\DetailPesan;
 
 class PesanController extends Controller
 {
@@ -22,16 +24,23 @@ class PesanController extends Controller
 
     public function searchProduk(Request $request)
     {
-        $produk = Product::select('*')->where('nama_produk','LIKE',$request->searchProduk.'%')->get();
+        $produk = Product::select('*')->where('nama_produk','LIKE','%'.$request->searchProduk.'%')->where('deleted','=','0')->get();
         $output = '';
         if(count($produk) >0){
-          $output .= '<ul class="list-group" style="display: block; position: relative; z-index: 1">';
             foreach ($produk as  $row) {
-              $output .= '<a href="javascript:void(0)" data-id="'.$row->id_produk.'"><li class="list-group-item">'.$row->nama_produk.'</li></a>';
+              $output .= '<li>
+                    <a href="javascript:void(0)" 
+                      class="list" 
+                      style="display:block;cursor:pointer" 
+                      data-id="'.$row->id_produk.'" 
+                      data-kode="'.$row->kode_produk.'"
+                      data-nama="'.$row->nama_produk.'"
+                      data-harga="'.$row->harga_jual.'"
+                      data-profit="'.$row->profit.'"
+                      onclick="addToTable(this);">'.$row->nama_produk.'</a></li>';
             }
-          $output .= "</ul>";
         }else{
-          $output .= '<a href="javascript:void(0)"><li class="list-group-item">Produk tidak ditemukan</li></a>';
+          $output .= '<li>Produk tidak ditemukan</li>';
         }
 
         return $output;
@@ -86,7 +95,55 @@ class PesanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $penjualan = Pesan::create([
+          'kode_penjualan' => rand(),
+          'tanggal_penjualan' => $request->tanggal_penjualan,
+          'nama_pembeli' => $request->nama_pembeli,
+          'nomor_telepon' => $request->nomor_hp,
+          'alamat_pembeli' => $request->alamat_pembeli,
+          'id_tujuan' => $request->tujuan,
+          'type_tujuan' => '1',
+          'tujuan' => '1',
+          'weight' => '1',
+          'ongkos_kirim' => '1',
+          'id_user' => '1',
+          'total' => '0'
+        ]);
+        $id = $penjualan->id;
+        $detail = array();
+
+        foreach ($request->kode_produk as $i => $item) {
+            $profit[$i] = $request->qty[$i]*$request->profit[$i];
+          $detail[] = array(
+            'id_produk' => $request->id_produk[$i],
+            'kode_produk' => $request->kode_produk[$i],
+            'nama_produk' => $request->nama_produk[$i],
+            'harga_produk' => $request->harga_produk[$i],
+            'subtotal' => $request->subtotal[$i],
+            'quantity' => $request->qty[$i],
+            'size' => 'X',
+            'profit' => $profit[$i],
+            'id_penjualan' => $id 
+          );
+        }
+
+        $penjualan_detail = DetailPesan::insert($detail);
+        
+        $this->generate_total($id);
+
+        $data['data'] = $penjualan;
+        $data['data']['detail'] = $detail;
+        
+
+        return response()->json($data);
+    }
+
+    public function generate_total($id_penjualan)
+    {
+        $total = DetailPesan::where('id_penjualan',$id_penjualan)->sum('subtotal');
+        Pesan::where('id_penjualan',$id_penjualan)->update([
+          'total' => $total
+        ]);
     }
 
     /**

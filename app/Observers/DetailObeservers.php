@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 use App\DetailPesan;
+use App\Pesan;
 
 class DetailObeservers
 {
@@ -13,7 +14,7 @@ class DetailObeservers
             return $i->subtotal;
        });
 
-       $detailPesan->pesan()->update([
+       Pesan::where('id_penjualan',$id_penjualan)->update([
            'total' => $total
        ]);
    }

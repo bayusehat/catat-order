@@ -30,3 +30,5 @@ Route::any('/deleteKategoriProduk/{id}', 'KategoriController@destroy');
 Route::get('/pesan','PesanController@index');
 Route::get('/getCity','PesanController@getCity');
 Route::get('/tambahPesan','PesanController@create');
+Route::any('/searchProduk', 'PesanController@searchProduk');
+Route::post('/addPesan','PesanController@store');

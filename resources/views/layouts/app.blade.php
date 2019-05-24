@@ -31,6 +31,26 @@
       border-radius: 3px;
       height: 556px;
     }
+    #autoSuggestionsList > li {
+      background: none repeat scroll 0 0 #F3F3F3;
+      /* border-bottom: 1px solid #E3E3E3; */
+      list-style: none outside none;
+      padding: 5px 15px 5px 15px;
+      text-align: left;
+      height: 34px;
+		}
+		
+		#autoSuggestionsList > li:hover {
+			background: none repeat scroll 0 0 lightgrey;
+			color: black;
+	   }
+		.auto_list {
+      border: 1px solid #E3E3E3;
+            /* border-radius: 5px 5px 5px 5px; */;
+      position: absolute;
+      z-index: 1;
+      width: 96%;
+    }
   </style>
 </head>
 
@@ -123,7 +143,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="/tambahPesan">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Pesanan Baru</span></a>
       </li>
