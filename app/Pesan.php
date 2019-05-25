@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\DetailPesan;
 
 class Pesan extends Model
 {
@@ -12,6 +13,6 @@ class Pesan extends Model
 
     public function detail()
     {
-        return $this->hasMany(DetailPesan::class);
+        return $this->hasMany('App\DetailPesan','id_penjualan');
     }
 }

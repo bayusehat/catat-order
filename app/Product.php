@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\KategoriProduk;
 
 class Product extends Model
 {
@@ -10,8 +11,8 @@ class Product extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function kategoriProduk()
+    public function kategori()
     {
-        return $this->belongsTo(KategoriProduk::class);
+        return $this->belongsTo('App\KategoriProduk', 'id_kategori_produk');
     }
 }

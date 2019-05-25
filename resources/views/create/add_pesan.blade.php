@@ -22,24 +22,58 @@
                                 <label for="">Tanggal Pesan</label>
                                 <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d')}}">
                             </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Nama Pembeli</label>
                                 <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli">
                             </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Nomor Handphone</label>
                                 <input type="text" class="form-control" id="nomor_hp" name="nomor_hp">
                             </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Alamat Pembeli</label>
-                                <textarea name="alamat_pembeli" id="alamat_pembeli" cols="30" rows="10" class="form-control"></textarea>
+                                <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Tujuan</label>
                                 <select name="tujuan" id="tujuan" class="form-control" style="width:100%"></select>
                             </div>
                         </div>
-                        <div class="col-md-9 col-sm-9">
+                        <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="">Weight (kg)</label>
+                                <input type="text" name="weight" id="weight" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="">Kurir</label>
+                                <select name="kurir" id="kurir" class="form-control">
+                                    <option value="jne">
+                                        JNE (REG)
+                                    </option>
+                                    <option value="pos">
+                                        POS Indonesia (Kilat Khusus)
+                                    </option>
+                                    <option value="tiki">
+                                        TIKI (ECO)
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
                             <div class="form-group has-feedback has-search">
 								<span class="glyphicon glyphicon-search form-control-feedback"></span>
                                 <input type="text" class="form-control" id="searchProduk" name="searchProduk" placeholder="Search Produk">
@@ -72,6 +106,7 @@
                             </div>
                         </div>
                     </div>
+                <hr>
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <input type="submit" class="btn btn-success btn-block" name="submit" id="btnAddPesanan" value="Simpan Pesanan">

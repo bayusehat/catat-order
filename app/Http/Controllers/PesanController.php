@@ -108,7 +108,7 @@ class PesanController extends Controller
           'id_tujuan' => $request->tujuan,
           'type_tujuan' => '1',
           'tujuan' => '1',
-          'weight' => '1000',
+          'weight' => $request->weight,
           'ongkos_kirim' => '1',
           'id_user' => '1',
           'total' => '0'
@@ -134,15 +134,15 @@ class PesanController extends Controller
         $penjualan_detail = DetailPesan::insert($detail);
 
         $temp_total = $this->generate_total($id);
-        $ongkir = $this->getCost($id,$request->tujuan,1000);
+        $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
 
         Pesan::where('id_penjualan',$id)->update([
           'total' => $temp_total+$ongkir
         ]);
-
+        
+        //JSON result
         $data['data'] = $penjualan;
         $data['data']['detail'] = $detail;
-        
 
         return response()->json($data);
     }
@@ -157,7 +157,7 @@ class PesanController extends Controller
         return $total;
     }
 
-    public function getCost($id_penjualan,$kota_tujuan,$weight)
+    public function getCost($id_penjualan,$kota_tujuan,$weight,$courier)
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -168,7 +168,7 @@ class PesanController extends Controller
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "origin=444&destination=$kota_tujuan&weight=$weight&courier=jne",
+        CURLOPT_POSTFIELDS => "origin=444&destination=$kota_tujuan&weight=$weight&courier=$courier",
         CURLOPT_HTTPHEADER => array(
           "content-type: application/x-www-form-urlencoded",
           "key:3275a8000010695a45f9ea333d0145f9"
@@ -184,9 +184,16 @@ class PesanController extends Controller
         echo "cURL Error #:" . $err;
       } else {
         $hasil = json_decode($response,true);
+        if($courier == 'jne'){
           $ongkir = $hasil['rajaongkir']['results'][0]['costs'][1]['cost'][0]['value'];
-            $temp = Pesan::where('id_penjualan',$id_penjualan)->update([
-              'ongkos_kirim' => $ongkir
+        }else if($courier == 'pos'){
+          $ongkir = $hasil['rajaongkir']['results'][0]['costs'][0]['cost'][0]['value'];
+        }else{
+          $ongkir = $hasil['rajaongkir']['results'][0]['costs'][0]['cost'][0]['value'];
+        }
+
+        $temp = Pesan::where('id_penjualan',$id_penjualan)->update([
+            'ongkos_kirim' => $ongkir
           ]);
         return $ongkir;
       }

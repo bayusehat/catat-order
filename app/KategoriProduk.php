@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Product;
 
 class KategoriProduk extends Model
 {
@@ -20,5 +21,10 @@ class KategoriProduk extends Model
                 $query->where('c.nama_kategori_produk', 'like', "%$q%");
             })
             ->get();
+    }
+
+    public function produk()
+    {
+        return $this->hasMany('App\Product', 'id_kategori_produk', 'id_kategori_produk');
     }
 }

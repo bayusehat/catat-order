@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Pesan;
 
 class DetailPesan extends Model
 {
@@ -13,6 +14,6 @@ class DetailPesan extends Model
 
     public function pesan()
     {
-        return $this->belongsTo(Pesan::class);
+        return $this->belongsTo('App\Pesan','id_penjualan');
     }
 }
