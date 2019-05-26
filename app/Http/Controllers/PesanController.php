@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Pesan;
 use App\Product;
 use App\DetailPesan;
+use PDF;
 
 class PesanController extends Controller
 {
@@ -213,6 +214,16 @@ class PesanController extends Controller
         $title = 'Edit Pesanan '.$penjualan->kode_penjualan;
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
         return view('edit.edit_pesan',compact('penjualan','details','title'));
+    }
+
+    public function cetakNota($id)
+    {
+        $penjualan = Pesan::where('id_penjualan',$id)->first();
+        $title = 'Nota Pembelian '.$penjualan->kode_penjualan;
+        $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
+        $pdf = PDF::loadView('layouts.nota',compact('penjualan','title','details'));
+        $pdf->setPaper('a4','portrait');
+        return $pdf->stream('Nota Pembelian - '.$penjualan->kode_penjualan.' / '. $penjualan->nama_pembeli);
     }
 
     /**
