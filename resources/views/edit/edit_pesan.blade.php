@@ -5,7 +5,7 @@
         <a href="#">Data Master</a>
         </li>
         <li class="breadcrumb-item ">Pesanan</li>
-        <li class="breadcrumb-item ">Tambah Pesanan</li>
+        <li class="breadcrumb-item ">{{$title}}</li>
     </ol>
 
     <div class="card mb-3">
@@ -14,31 +14,31 @@
               Tambah Pesanan</div>
             <div class="card-body">
                 <form method="POST" id="formAddPesanan">
-                    @method('POST')
+                    @method('PUT')
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Tanggal Pesan</label>
-                                <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d')}}">
+                                <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d',strtotime($penjualan->tanggal_penjualan))}}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Nama Pembeli</label>
-                                <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli">
+                                <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli" value="{{$penjualan->nama_pembeli}}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Nomor Handphone</label>
-                                <input type="text" class="form-control" id="nomor_hp" name="nomor_hp">
+                                <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" value="{{$penjualan->nomor_telepon}}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Alamat Pembeli</label>
-                                <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control">
+                                <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control" value="{{$penjualan->alamat_pembeli}}">
                             </div>
                         </div>
                     </div>
@@ -46,19 +46,22 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Tujuan</label>
-                                <select name="tujuan" id="tujuan" class="form-control" style="width:100%"></select>
+                                <select name="tujuan" id="tujuan" class="form-control" style="width:100%">
+                                    <option value="{{$penjualan->id_pembeli}}">{{$penjualan->id_tujuan}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Weight (kg)</label>
-                                <input type="text" name="weight" id="weight" class="form-control">
+                                <input type="text" name="weight" id="weight" class="form-control" value="{{$penjualan->weight}}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="">Kurir</label>
                                 <select name="kurir" id="kurir" class="form-control">
+                                    <option value="{{$penjualan->kurir}}">{{$penjualan->kurir}}</option>
                                     <option value="jne">
                                         JNE (REG)
                                     </option>
@@ -100,7 +103,30 @@
                                         </tr>
                                     </thead>
                                     <tbody id="fillProduct">
-                            
+                                        @foreach ($details as $row)
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="id_produk[]" value="{{$row->id_produk}}" class="form-control">
+                                                    <input type="text" name="kode_produk[]" value="{{$row->kode_produk}}" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="nama_produk[]" value="{{$row->nama_produk}}" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="harga_produk[]" value="{{$row->harga_produk}}" class="form-control harga_produk">
+                                                    <input type="hidden" name="profit[]" value="{{$row->profit}}" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="qty[]" value="{{$row->quantity}}" class="form-control quantity" onkeyup="quantity()">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="subtotal[]" value="{{$row->subtotal}}" class="form-control subtotal">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-block del" onclick="deleteOrderDetail({{$row->id_detail_penjualan}})"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -109,7 +135,7 @@
                 <hr>
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
-                            <input type="submit" class="btn btn-success btn-block" name="submit" id="btnAddPesanan" value="Simpan Pesanan">
+                            <input type="submit" class="btn btn-info btn-block" name="submit" id="btnUpdatePesanan" value="Update Pesanan">
                         </div>
                     </div> 
                 </form>
@@ -204,37 +230,9 @@
         $("#searchProduk").val("").focus();
     }
 
-    $("#formAddPesanan").delegate("button.del","click",function(){
-        $(this).closest("tr").remove();
-    });
-
-    $("#btnAddPesanan").click(function(event){
-        event.preventDefault();
-        var formdata= $('form').serialize();
-        var token = $("input[name='_token']").val();
-        var conf = confirm('Apakah anda yakin untuk menyimpan?');
-
-        if(conf){
-            $.ajaxSetup({
-                headers:{'X-CSRF-TOKEN' : csrf_token}
-            });
-            $.ajax({
-                type:"POST",
-                url:"/addPesan",
-                dataType:"json",
-                data : formdata,
-                success:function(data){
-                    alert('Order saved');
-                    window.location.reload();
-                },
-                error:function(data){
-                    alert(data.msg);
-                }
-            })
-        }else{
-
-        }
-    })
+    // $("#formAddPesanan").delegate("button.del","click",function(){
+    //     $(this).closest("tr").remove();
+    // });
 
     function quantity() {
       var sum = 0;
@@ -246,6 +244,30 @@
               sum+=amount;
               $(this).find('.subtotal').val(amount);
           });
+    }
+
+    function deleteOrderDetail(id){
+        var conf = confirm('Apakah anda yakin untuk menghapus?');
+        if(conf){
+            $.ajax({
+                type:"POST",
+                url : "/deleteOrderDetail/"+id,
+                dataType:"json",
+                data : {
+                    "_token" : "{{ csrf_token() }}",
+                    "id_detail_penjualan" : id
+                },
+                success:function(data){
+                    alert(data.msg);
+                    window.location.reload();
+                },
+                error:function(data){
+                    alert('Error');
+                }
+            });
+        }else{
+
+        }
     }
     </script>
 @endsection

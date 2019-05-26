@@ -110,6 +110,7 @@ class PesanController extends Controller
           'tujuan' => '1',
           'weight' => $request->weight,
           'ongkos_kirim' => '1',
+          'kurir' => $request->kurir,
           'id_user' => '1',
           'total' => '0'
         ]);
@@ -149,9 +150,10 @@ class PesanController extends Controller
 
     public function generate_total($id_penjualan)
     {
-        $total = DetailPesan::where('id_penjualan',$id_penjualan)->sum('subtotal');
+        $total = DetailPesan::where('id_penjualan',$id_penjualan)->where('deleted','=','0')->sum('subtotal');
+        $pesan = Pesan::where('id_penjualan',$id_penjualan)->first();
         $temp = Pesan::where('id_penjualan',$id_penjualan)->update([
-          'total' => $total
+          'total' => $pesan->ongkos_kirim+$total
         ]);
 
         return $total;
@@ -207,7 +209,10 @@ class PesanController extends Controller
      */
     public function show($id)
     {
-        //
+        $penjualan = Pesan::where('id_penjualan',$id)->first();
+        $title = 'Edit Pesanan '.$penjualan->kode_penjualan;
+        $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
+        return view('edit.edit_pesan',compact('penjualan','details','title'));
     }
 
     /**
@@ -230,7 +235,53 @@ class PesanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $penjualan = Pesan::where('id_penjualan',$id)->update([
+        'tanggal_penjualan' => $request->tanggal_penjualan,
+        'nama_pembeli' => $request->nama_pembeli,
+        'nomor_telepon' => $request->nomor_hp,
+        'alamat_pembeli' => $request->alamat_pembeli,
+        'id_tujuan' => $request->tujuan,
+        'type_tujuan' => '1',
+        'tujuan' => '1',
+        'weight' => $request->weight,
+        'ongkos_kirim' => '1',
+        'kurir' => $request->kurir,
+        'id_user' => '1',
+        'total' => '0'
+      ]);
+      $detail = array();
+
+      foreach ($request->kode_produk as $i => $item) {
+          $profit[$i] = $request->qty[$i]*$request->profit[$i];
+        $detail[] = array(
+          'id_produk' => $request->id_produk[$i],
+          'kode_produk' => $request->kode_produk[$i],
+          'nama_produk' => $request->nama_produk[$i],
+          'harga_produk' => $request->harga_produk[$i],
+          'subtotal' => $request->subtotal[$i],
+          'quantity' => $request->qty[$i],
+          'size' => 'X',
+          'profit' => $profit[$i],
+          'id_penjualan' => $id 
+        );
+
+        DetailPesan::where('id_penjualan',$id)->update($detail);
+      }
+
+      // $penjualan_detail = DetailPesan::insert($detail);
+
+      $temp_total = $this->generate_total($id);
+      $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
+
+      Pesan::where('id_penjualan',$id)->update([
+        'total' => $temp_total+$ongkir
+      ]);
+      
+      //JSON result
+      $data['data'] = $penjualan;
+      $data['data']['detail'] = $detail;
+
+      return response()->json($data);
     }
 
     /**
@@ -241,6 +292,21 @@ class PesanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Pesan::where('id_penjualan', $id);
+        $product->update([
+          'deleted' => '1'
+        ]);
+
+        return response()->json(['msg' => 'Order deleted']);
+    }
+
+    public function deleteOrderDetail($id_detail_penjualan)
+    {
+        $detail = DetailPesan::where('id_detail_penjualan',$id_detail_penjualan)->first();
+        $update = DetailPesan::where('id_detail_penjualan',$id_detail_penjualan)->update([
+          'deleted' => '1'
+        ]);
+        $this->generate_total($detail->id_penjualan);
+        return response()->json(['msg' => 'Items deleted']);
     }
 }

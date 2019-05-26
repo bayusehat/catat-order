@@ -33,3 +33,6 @@ Route::get('/getCity','PesanController@getCity');
 Route::get('/tambahPesan','PesanController@create');
 Route::any('/searchProduk', 'PesanController@searchProduk');
 Route::post('/addPesan','PesanController@store');
+Route::any('/editPesanan/{id}', 'PesanController@show');
+Route::any('/deleteOrderDetail/{id}', 'PesanController@deleteOrderDetail');
+Route::any('/deletePesanan/{id}', 'PesanController@destroy');

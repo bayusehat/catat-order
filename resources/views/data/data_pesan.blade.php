@@ -40,6 +40,7 @@
                                         <td>{{ $row->tujuan }}</td>
                                         <td>Rp {{ number_format($row->total) }}</td>
                                         <td>
+                                                <a href="/cetakNotaPesanan/{{$row->id_penjualan}}" class="btn btn-primary"><i class="fa fa-file"></i></a>
                                             <a href="/editPesanan/{{$row->id_penjualan}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
                                             <a href="javascript:void(0)" class="btn btn-danger" onclick="deletePesanan({{$row->id_penjualan}})"><i class="fa fa-trash"></i></a>
                                         </td>
@@ -52,4 +53,30 @@
             </div>
         <div class="card-footer small text-muted"></div>
     </div>
+@endsection
+@section('js')
+    <script>
+        function deletePesanan(id) {
+            var conf = confirm('Apakah anda yakin untuk menghapus?');
+
+            if(conf){
+                $.ajax({
+                    type:"POST",
+                    url :"/deletePesanan/"+id,
+                    dataType:"json",
+                    data : {
+                        "_token":"{{ csrf_token() }}",
+                        "id_penjualan" : id
+                    },
+                    success:function(data){
+                        alert(data.msg);
+                        window.location.reload();
+                    },
+                    error:function(data){
+                        alert('Error');
+                    }   
+                })
+            }
+        }
+    </script>
 @endsection
