@@ -21,8 +21,6 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/css/sb-admin.css')}}" rel="stylesheet">
-
-  <script src="{{asset('js/app.js')}}"></script>
   <style>
     .scroll{
       overflow-y: scroll;
@@ -55,7 +53,6 @@
 </head>
 
 <body id="page-top">
-
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
     <a class="navbar-brand mr-1" href="index.html">Catat Basic Order</a>
@@ -201,8 +198,8 @@
       </div>
     </div>
   </div>
-
   <!-- Bootstrap core JavaScript-->
+  <script src="{{asset('js/app.js')}}"></script>
   <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
   {{-- <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
   <!-- Core plugin JavaScript-->

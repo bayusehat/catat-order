@@ -1,1 +1,7 @@
-<h1>{{$data}}</h1>
+@extends('layouts.app')
+@section('content')
+    <div id="app">
+       <data-kategori></data-kategori>
+    </div>
+@endsection
+    

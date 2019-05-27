@@ -13,6 +13,7 @@
 //Dashboard Route
 Route::get('/','AdminController@index');
 Route::get('/testPdf','AdminController@test_pdf');
+Route::get('/kategoriSample','AdminController@kategoriSample');
 //Produk Route
 Route::get('/produk','ProductController@index');
 Route::get('/tambahproduk','ProductController@create');

@@ -20,11 +20,15 @@ class AdminController extends Controller
     }
 
     public function test_pdf()
-    {
-        $data = "Assalamualaikum Ukhty";
-        $pdf = PDF::loadView('testPdf',compact('data'));
-        $pdf->setPaper('a4','portrait');
-        return $pdf->stream($data.' - '.date('Y-m-d H:i:s'));
+    {   
+        $title= "Test Vue";
+        return view('testPdf',compact('title'));
+    }
 
+    public function kategoriSample()
+    {
+        $title = 'Data Kategori';
+        $kategoris = KategoriProduk::where('deleted','=','0')->orderBy('created','desc')->get();
+        return $kategoris;
     }
 }

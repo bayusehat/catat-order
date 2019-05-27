@@ -15,7 +15,7 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $title = 'Data Kaegori';
+        $title = 'Data Kategori';
         $kategoris = KategoriProduk::where('deleted','=','0')->orderBy('created','desc')->get();
         return view('data.data_kategori',compact('kategoris','title'));
     }
