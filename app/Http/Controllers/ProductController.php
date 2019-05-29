@@ -180,7 +180,7 @@ class ProductController extends Controller
         $folder = [];
 
         foreach($files as $file){
-            $filename = $file->getClientOriginalName().' - '. $file->getClientOriginalExtension();
+            $filename = $file->getClientOriginalName();
             $folder[] = $file->storeAs('uploads',$filename);
 
             DetailProduct::create([

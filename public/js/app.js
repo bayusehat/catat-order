@@ -37219,7 +37219,7 @@ var render = function() {
               {
                 staticClass:
                   "table table-bordered table-striped table-condensed",
-                attrs: { id: "dataTable", width: "100%", cellspacing: "0" }
+                attrs: { width: "100%", cellspacing: "0" }
               },
               [
                 _vm._m(3),

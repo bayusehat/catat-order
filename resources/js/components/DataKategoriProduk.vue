@@ -19,7 +19,7 @@
             <hr>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <table class="table table-bordered table-striped table-condensed" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped table-condensed" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Nama Produk</th>

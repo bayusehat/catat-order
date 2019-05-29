@@ -7,7 +7,7 @@
     <title>Nota Pembelian - {{$penjualan->kode_penjualan}}</title>
 </head>
 <body>
-    <table width="100%">
+    <table width="100%" cellpadding="5">
         <tr>
             <td>Penjualan No.</td>
             <td>:</td>
@@ -34,7 +34,7 @@
         </tr>
     </table>
     <hr>
-    <table width="100%" border="1" class="table table-borderen table-striped">
+    <table width="100%" border="1" class="table table-borderen table-striped" cellpadding="10">
         <tr>
             <th>Kode Produk</th>
             <th>Nama Produk</th>
@@ -47,8 +47,8 @@
                 <td>{{$row->kode_produk}}</td>
                 <td>{{$row->nama_produk}}</td>
                 <td>Rp {{number_format($row->harga_produk)}}</td>
-                <td>{{$row->quantity}}</td>
-                <td>{{$row->subtotal}}</td>
+                <td>Rp {{number_format($row->quantity)}}</td>
+                <td>Rp {{number_format($row->subtotal)}}</td>
             </tr>
         @endforeach
             <tr>

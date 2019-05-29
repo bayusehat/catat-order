@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Tujuan</label>
                                 <select name="tujuan" id="tujuan" class="form-control" style="width:100%">
@@ -51,13 +51,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Weight (kg)</label>
                                 <input type="text" name="weight" id="weight" class="form-control" value="{{$penjualan->weight}}">
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Kurir</label>
                                 <select name="kurir" id="kurir" class="form-control">
@@ -89,7 +89,7 @@
                                 <input type="text" class="form-control" id="searchProduk" name="searchProduk" placeholder="Search Produk">
                             </div> --}}
                             <div id="product-list"></div>
-                            <hr>
+                        <hr>
                             <div class="scroll">
                                 <table class="table table-bordered table-striped" id="tableOrder">
                                     <thead>
