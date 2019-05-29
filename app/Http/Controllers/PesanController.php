@@ -80,6 +80,38 @@ class PesanController extends Controller
       }
     }
 
+    public function getCityName($id,$id_penjualan)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.rajaongkir.com/starter/city?id=$id",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+          "key:3275a8000010695a45f9ea333d0145f9"
+        ),
+      ));
+
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+
+      curl_close($curl);
+
+      if ($err) {
+        echo "cURL Error #:" . $err;
+      } else {
+        $hasil = json_decode($response,true);
+        $kota =  $hasil['rajaongkir']['results']['city_name'];
+        Pesan::where('id_penjualan',$id_penjualan)->update([
+           'tujuan' => $kota
+        ]);
+      }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -137,6 +169,7 @@ class PesanController extends Controller
 
         $temp_total = $this->generate_total($id);
         $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
+        $this->getCityName($request->tujuan,$id);
 
         Pesan::where('id_penjualan',$id)->update([
           'total' => $temp_total+$ongkir
@@ -275,14 +308,14 @@ class PesanController extends Controller
           'profit' => $profit[$i],
           'id_penjualan' => $id 
         );
-
-        DetailPesan::where('id_penjualan',$id)->update($detail);
+        // DetailPesan::where('id_penjualan',$id)->update([$detail]);
       }
 
       // $penjualan_detail = DetailPesan::insert($detail);
 
       $temp_total = $this->generate_total($id);
       $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
+      $this->getCityName($request->tujuan,$id);
 
       Pesan::where('id_penjualan',$id)->update([
         'total' => $temp_total+$ongkir
@@ -290,7 +323,7 @@ class PesanController extends Controller
       
       //JSON result
       $data['data'] = $penjualan;
-      $data['data']['detail'] = $detail;
+      // $data['data']['detail'] = $detail;
 
       return response()->json($data);
     }

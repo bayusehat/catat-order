@@ -13,7 +13,7 @@
             <i class="fas fa-table"></i>
               Tambah Pesanan</div>
             <div class="card-body">
-                <form method="POST" id="formAddPesanan">
+                <form method="POST" id="formEditPesanan">
                     @method('PUT')
                     {{ csrf_field() }}
                     <div class="row">
@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <label for="">Tujuan</label>
                                 <select name="tujuan" id="tujuan" class="form-control" style="width:100%">
-                                    <option value="{{$penjualan->id_pembeli}}">{{$penjualan->id_tujuan}}</option>
+                                    <option value="{{$penjualan->id_tujuan}}">{{$penjualan->tujuan}}</option>
                                 </select>
                             </div>
                         </div>
@@ -106,6 +106,7 @@
                                         @foreach ($details as $row)
                                             <tr>
                                                 <td>
+                                                    <input type="hidden" name="id_detail_penjualan[]" value="{{$row->id_detail_penjualan}}" class="form-control">
                                                     <input type="hidden" name="id_produk[]" value="{{$row->id_produk}}" class="form-control">
                                                     <input type="text" name="kode_produk[]" value="{{$row->kode_produk}}" class="form-control">
                                                 </td>
@@ -135,7 +136,7 @@
                 <hr>
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
-                            <input type="submit" class="btn btn-info btn-block" name="submit" id="btnUpdatePesanan" value="Update Pesanan">
+                            <input type="submit" class="btn btn-info btn-block" name="submit" id="btnUpdatePesanan" onclick="editPesanan(event,{{$penjualan->id_penjualan}})" value="Update Pesanan">
                         </div>
                     </div> 
                 </form>
@@ -156,6 +157,11 @@
           url: '/getCity',
           dataType: 'json',
           delay: 250,
+          data: function(params){
+                return{
+                    id_tujuan: params.term
+                };
+            },
           processResults: function (data) {
             return {
               results: $.map(data.rajaongkir.results, function(item) {
@@ -269,5 +275,28 @@
 
         }
     }
+
+    function editPesanan(event,id){
+        event.preventDefault();
+        var formData = $('form#formEditPesanan').serialize();
+        var conf = confirm('Apakah anda yakin ingin menghapus?');
+
+        if(conf){
+            $.ajax({
+                type:"POST",
+                url:"/updatePesanan/"+id,
+                dataType:"json",
+                data : formData,
+                success:function(data){
+                    alert('Order updated');
+                    window.location.reload();
+                },
+                error:function(data){
+                    alert('Error');
+                }
+            })
+        }
+    }
+        
     </script>
 @endsection

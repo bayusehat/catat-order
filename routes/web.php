@@ -38,3 +38,4 @@ Route::any('/editPesanan/{id}', 'PesanController@show');
 Route::any('/deleteOrderDetail/{id}', 'PesanController@deleteOrderDetail');
 Route::any('/deletePesanan/{id}', 'PesanController@destroy');
 Route::any('/cetakNota/{id}', 'PesanController@cetakNota');
+Route::any('/updatePesanan/{id}', 'PesanController@update');
