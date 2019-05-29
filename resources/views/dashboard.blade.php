@@ -75,15 +75,69 @@
               </div>
             </div>
           </div>
-  
           <!-- Area Chart Example-->
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-chart-area"></i>
-              Area Chart Example</div>
+                Statistik Penjualan per Bulan</div>
             <div class="card-body">
-              <canvas id="myAreaChart" width="100%" height="30"></canvas>
+              <canvas id="ChartPenjualan" width="100%" height="30"></canvas>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted"></div>
           </div>
+@endsection
+@section('js')
+    <script>
+      var jumlah = "<?php echo json_encode($jumlah);?>";
+      // var nama = "<?php echo json_encode($nama);?>";
+
+      var ctx = document.getElementById("ChartPenjualan");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: <?php echo json_encode($nama);?>,
+          datasets: [{
+            label: "Jumlah Penjualan",
+            lineTension: 0.3,
+            backgroundColor: "rgba(2,117,216,0.2)",
+            borderColor: "rgba(2,117,216,1)",
+            pointRadius: 5,
+            pointBackgroundColor: "rgba(2,117,216,1)",
+            pointBorderColor: "rgba(255,255,255,0.8)",
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+            pointHitRadius: 50,
+            pointBorderWidth: 2,
+            data: <?php echo json_encode($jumlah);?>,
+          }],
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                min: 0,
+                maxTicksLimit: 5
+              },
+              gridLines: {
+                color: "rgba(0, 0, 0, .125)",
+              }
+            }],
+          },
+          legend: {
+            display: false
+          }
+        }
+      });
+    </script>
 @endsection

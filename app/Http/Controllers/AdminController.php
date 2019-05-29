@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\KategoriProduk;
 use App\Pesan;
@@ -16,7 +17,28 @@ class AdminController extends Controller
         $all_product = Product::where('deleted','=','0')->count();
         $all_kategori = KategoriProduk::where('deleted','=','0')->count();
         $all_pesanan = Pesan::where('deleted','=','0')->count();
-        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan'));
+        $chart = $this->chartStats();
+            foreach($chart as $data){
+                $jumlah[] = $data->m;
+                $nama[] = date('F Y',strtotime($data->d));
+            }
+        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan','jumlah','nama'));
+    }
+
+    public function chartStats()
+    {
+        // $query = $this->db->query("SELECT count(kode_penjualan) as m, DATE_FORMAT(tanggal_penjualan,'%Y-%m')as d FROM ct_penjualan WHERE deleted=0 GROUP BY DATE_FORMAT(tanggal_penjualan,'%Y-%m')");
+        $query = DB::table('ct_penjualan')
+                    ->select(DB::raw("count(kode_penjualan) as m, DATE_FORMAT(tanggal_penjualan,'%Y-%m') as d"))
+                    ->where('deleted','=','0')
+                    ->groupBy(DB::raw("DATE_FORMAT(tanggal_penjualan,'%Y-%m')"));
+
+		if($query->count() > 0){
+			foreach ($query->get() as $data) {
+				$hasil[] = $data;
+			}
+			return $hasil;
+		}
     }
 
     public function test_pdf()
