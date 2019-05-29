@@ -204,6 +204,7 @@
   {{-- <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
   <!-- Core plugin JavaScript-->
   <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ asset('assets/js/dropzone.js') }}"></script>
 
   <!-- Page level plugin JavaScript-->
   <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>

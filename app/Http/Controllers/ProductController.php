@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\KategoriProduk;
+use App\DetailProduct;
 
 class ProductController extends Controller
 {
@@ -157,5 +158,43 @@ class ProductController extends Controller
         }else{
             return response()->json(array('msg' => 'Delete failed'));
         }
+    }
+
+    public function tambahImgProduk($id)
+    {
+        $product = Product::where('id_produk',$id)->first();
+        $imgProduct = $this->getImgProduk($id);
+        $title = "Tambah Foto Produk";
+        return view('create.add_foto_produk',compact('product','title','imgProduct'));
+    }
+
+    public function addImgProduk(Request $request)
+    {
+        $validation = $request->validate([
+            'imgProduct.*' => 'required|file|image|mimes:jpeg,png'
+        ]);
+
+        $files = $request->file('imgProduct');
+        $id_produk = $request->id_produk;
+
+        $folder = [];
+
+        foreach($files as $file){
+            $filename = $file->getClientOriginalName().' - '. $file->getClientOriginalExtension();
+            $folder[] = $file->storeAs('uploads',$filename);
+
+            DetailProduct::create([
+                'img_produk' => $filename,
+                'id_produk' => $id_produk
+            ]);
+        }
+
+        return response()->json(['msg' => 'sukses']);
+    }
+
+    public function getImgProduk($id)
+    {
+        $products = DetailProduct::where('id_produk',$id)->where('deleted','=','0')->get();
+        return $products;
     }
 }

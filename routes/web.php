@@ -22,6 +22,8 @@ Route::post('/addProduk','ProductController@store');
 Route::any('/editProduk/{id}', 'ProductController@show');
 Route::any('/deleteProduk/{id}','ProductController@destroy');
 Route::any('/updateProduk/{id}','ProductController@update');
+Route::any('/tambahImgProduk/{id}', 'ProductController@tambahImgProduk');
+Route::any('/addImgProduk', 'ProductController@addImgProduk');
 //Kategori Produk Route
 Route::get('/kategori','KategoriController@index');
 Route::post('/addKategori','KategoriController@store');
