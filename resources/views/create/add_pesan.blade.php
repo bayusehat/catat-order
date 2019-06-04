@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="">Weight (kg)</label>
+                                <label for="">Weight (gram)</label>
                                 <input type="text" name="weight" id="weight" class="form-control">
                             </div>
                         </div>

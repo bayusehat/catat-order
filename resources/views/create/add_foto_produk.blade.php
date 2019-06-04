@@ -5,7 +5,7 @@
         <a href="#">Data Master</a>
         </li>
         <li class="breadcrumb-item ">Produk</li>
-        <li class="breadcrumb-item ">Tambah Produk</li>
+    <li class="breadcrumb-item ">Tambah Produk</li>
     </ol>
 
     <div class="card mb-3">
@@ -45,9 +45,10 @@
                                     <tr>
                                         <td>{{$data->img_produk}}</td>
                                         <td>
-                                            <a href="{{base_path().'/storage/app/uploads/'.$data->img_produk}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                            <a href="{{url('/storage/app/uploads/'.$data->img_produk)}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
                                             <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </td>
+                                        <td><img src="{{url('/storage/app/uploads/'.$data->img_produk)}}"></td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -297,7 +297,7 @@ class PesanController extends Controller
 
       foreach ($request->kode_produk as $i => $item) {
           $profit[$i] = $request->qty[$i]*$request->profit[$i];
-        $detail[] = array(
+        $detail = array(
           'id_produk' => $request->id_produk[$i],
           'kode_produk' => $request->kode_produk[$i],
           'nama_produk' => $request->nama_produk[$i],
@@ -308,7 +308,7 @@ class PesanController extends Controller
           'profit' => $profit[$i],
           'id_penjualan' => $id 
         );
-        // DetailPesan::where('id_penjualan',$id)->update([$detail]);
+        DetailPesan::where('id_penjualan',$id)->update($detail);
       }
 
       // $penjualan_detail = DetailPesan::insert($detail);
