@@ -350,6 +350,7 @@ class PesanController extends Controller
         $update = DetailPesan::where('id_detail_penjualan',$id_detail_penjualan)->update([
           'deleted' => '1'
         ]);
+
         $this->generate_total($detail->id_penjualan);
         return response()->json(['msg' => 'Items deleted']);
     }

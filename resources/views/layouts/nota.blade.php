@@ -5,8 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Nota Pembelian - {{$penjualan->kode_penjualan}}</title>
+    <style>
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: normal;
+            src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+        }
+        .line-head{
+            background: #ffb300;
+            width: 100%;
+            height: 30px;
+            margin: 10px 0px 10px 0px;
+        }
+        .text-right{
+            text-align: right;
+        }
+        .text-left{
+            text-align: left;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .last{
+            padding: 10px;
+            font-weight: bold;
+        }
+        .last-title{
+            text-transform: uppercase;
+        }
+        #table-detail-order{
+            border-collapse: collapse;
+            border : 1px solid lightgrey;
+        }
+        #table-detail-order tr th{
+            background: #0d47a1;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+        #table-detail-order tr td{
+            border : 1px solid lightgrey;
+        }
+        #table-head{
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
+    <table width="100%" id="table-head">
+        <tr>
+            <td rowspan="3"><h1 class="logo">BASICCLASS.CO</h1></td>
+            <td class="text-right">@basicclass.co</td>
+            <td align="right"><img src="{{public_path().'/assets/icon/instagram.png'}}" alt="instagram" width="15px"></td>
+        </tr>
+        <tr>
+            <td class="text-right">+62 8954 6479 1632</td>
+            <td align="right"><img src="{{public_path().'/assets/icon/icon.png'}}" alt="instagram" width="15px"></td>
+        </tr>
+        <tr>
+            <td class="text-right">Surabaya, Indonesia</td>
+            <td align="right"><img src="{{public_path().'/assets/icon/phone.png'}}" alt="instagram" width="15px"></td>
+        </tr>
+    </table>
+    <div class="line-head"></div>
     <table width="100%" cellpadding="5">
         <tr>
             <td>Penjualan No.</td>
@@ -17,7 +78,7 @@
             <td>{{date('d F Y',strtotime($penjualan->tanggal_penjualan))}}</td>
         </tr>
         <tr>
-            <td>Nama Pembeli</td>
+            <td>Nama</td>
             <td>:</td>
             <td>{{$penjualan->nama_pembeli}}</td>
             <td>Nomor Telepon</td>
@@ -25,7 +86,7 @@
             <td>{{$penjualan->nomor_telepon}}</td>
         </tr>
         <tr>
-            <td>Alamat Pembeli</td>
+            <td>Alamat</td>
             <td>:</td>
             <td>{{$penjualan->alamat_pembeli}}</td>
             <td>Status</td>
@@ -33,8 +94,8 @@
             <td>{{$penjualan->status}}</td>
         </tr>
     </table>
-    <hr>
-    <table width="100%" border="1" class="table table-borderen table-striped" cellpadding="10">
+    <br>
+    <table width="100%" cellpadding="10" id="table-detail-order">
         <tr>
             <th>Kode Produk</th>
             <th>Nama Produk</th>
@@ -47,18 +108,22 @@
                 <td>{{$row->kode_produk}}</td>
                 <td>{{$row->nama_produk}}</td>
                 <td>Rp {{number_format($row->harga_produk)}}</td>
-                <td>Rp {{number_format($row->quantity)}}</td>
+                <td>{{number_format($row->quantity)}}</td>
                 <td>Rp {{number_format($row->subtotal)}}</td>
             </tr>
         @endforeach
             <tr>
-                <td colspan="4" align="right">Ongkos Kirim</td>
-                <td>Rp {{number_format($penjualan->ongkos_kirim)}}</td>
+                <td colspan="4" class="text-right last-title"><b>Ongkos Kirim</b></td>
+                <td class="last">Rp {{number_format($penjualan->ongkos_kirim)}}</td>
             </tr>
             <tr>
-                <td colspan="4" align="right">Total</td>
-                <td>Rp {{number_format($penjualan->total)}}</td>
+                <td colspan="4" class="text-right last-title"><b>Total</b></td>
+                <td class="last">Rp {{number_format($penjualan->total)}}</td>
             </tr>
        </table>
+       <br>
+       <div>
+           <em><center><b> Thanks for buy this product </b></center></em>
+       </div>
 </body>
 </html>

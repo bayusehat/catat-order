@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login','LoginController@index');
 //Dashboard Route
 Route::get('/','AdminController@index');
 Route::get('/testPdf','AdminController@test_pdf');
@@ -44,6 +45,6 @@ Route::any('/updatePesanan/{id}', 'PesanController@update');
 //Show Image fron Storage
 Route::get('/storage/{filename}', function ($filename) {
     $path = 'uploads/'.$filename;
-    $content = Storage::disk('local')->get($path);
-    return dd($content);
+    $content = Storage::disk('local')->put('filename',$filename);
+    return $content;
 });
