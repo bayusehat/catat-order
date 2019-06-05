@@ -117,7 +117,14 @@
                         "_token" : token,
                         "nama_kategori_produk" : $("#nama_kategori_produk").val()
                     },
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success:function(data){
+                        $("#modalAddKategori").hide();
                         swal_success('Kategori produk saved!');
                         setTimeout(function () {
                             window.location.reload();
@@ -160,11 +167,21 @@
                         "edit_nama_kategori_produk" : $("#edit_nama_kategori_produk").val(),
                         "edit_id_kategori_produk" : $("#edit_id_kategori_produk").val()
                     },
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success:function(data){
-                        alert(data.msg);
+                        $("#modalEditkategori").hide();
+                        swal_success('Kategori updated!');
+                        setTimeout(function() {
+                             window.location.reload();
+                        },1000);
                     },
                     error:function(data){
-                        alert(data.msg)
+                        swal_failed('Something wrong!');
                     }
                 })
             }
@@ -181,12 +198,20 @@
                         "_token": "{{ csrf_token() }}",
                         "id_kategori_produk": id
                     },
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success:function(data){
-                        alert(data.msg);
-                        window.location.reload();
+                        swal_success('Kategori deleted!');
+                        setTimeout(function() {
+                             window.location.reload();
+                        },1000);
                     },
                     error:function(data){
-                        alert(data.msg);
+                        swal_failed('Something wrong!');
                     }
                 })
             }

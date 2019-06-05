@@ -289,6 +289,12 @@
                 url:"/updatePesanan/"+id,
                 dataType:"json",
                 data : formData,
+                beforeSend:function(){
+                    $('body').loading();
+                },
+                complete:function(){
+                    $('body').loading('stop');
+                },
                 success:function(data){
                     swal_success('Order updated');
                     setTimeout(function () {

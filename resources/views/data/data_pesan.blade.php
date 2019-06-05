@@ -27,6 +27,7 @@
                                     <th>Tanggal</th>
                                     <th>Customer</th>
                                     <th>Tujuan</th>
+                                    <th>Status</th>
                                     <th>Total</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -38,10 +39,22 @@
                                         <td>{{ $row->tanggal_penjualan }}</td>
                                         <td>{{ $row->nama_pembeli }}</td>
                                         <td>{{ $row->tujuan }}</td>
+                                        <td>
+                                            @if ($row->status == 'Belum Terbayar')
+                                                <div class="badge badge-danger">{{ $row->status }}</div>
+                                            @else
+                                                <div class="badge badge-success">{{ $row->status }}</div>
+                                            @endif
+                                        </td>
                                         <td>Rp {{ number_format($row->total) }}</td>
                                         <td>
-                                                <a href="/cetakNota/{{$row->id_penjualan}}" class="btn btn-primary" target="_blank"><i class="fa fa-file"></i></a>
+                                            <a href="/cetakNota/{{$row->id_penjualan}}" class="btn btn-primary" target="_blank"><i class="fa fa-file"></i></a>
                                             <a href="/editPesanan/{{$row->id_penjualan}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                            @if ($row->status == 'Belum Terbayar')
+                                                <a href="#" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                            @else
+                                                <a href="#" class="btn btn-warning"><i class="fa fa-times"></i></a>
+                                            @endif
                                             <a href="javascript:void(0)" class="btn btn-danger" onclick="deletePesanan({{$row->id_penjualan}})"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -68,15 +81,20 @@
                         "_token":"{{ csrf_token() }}",
                         "id_penjualan" : id
                     },
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success:function(data){
-                        alert(data.msg);
-                        // $(this).delegate('button.del',function(){ 
-                        //     $(this).closest("tr").remove();
-                        //  })
-                        window.location.reload();
+                        swal_success('Pesanan deleted!');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1000);
                     },
                     error:function(data){
-                        alert('Error');
+                        swal_failed('Something weong');
                     }   
                 })
             }

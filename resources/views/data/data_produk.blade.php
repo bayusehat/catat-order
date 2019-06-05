@@ -66,6 +66,12 @@
                         "_token": "{{ csrf_token() }}",
                         "id_produk": id
                     },
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success:function(data){
                         swal_success('Produk with '+id+' deleted!');
                         setTimeout(function () {

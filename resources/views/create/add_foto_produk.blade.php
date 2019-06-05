@@ -77,6 +77,12 @@
                     mimeType: 'multipart/form-data',
                     processData: false,
                     data:new FormData(this),
+                    beforeSend:function(){
+                        $('body').loading();
+                    },
+                    complete:function(){
+                        $('body').loading('stop');
+                    },
                     success: function (data) {
                         swal_success('Produk image uploaded!');
                         setTimeout(function () {

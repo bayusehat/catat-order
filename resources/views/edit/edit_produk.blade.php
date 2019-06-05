@@ -104,6 +104,12 @@
                 url:"/updateProduk/"+id,
                 dataType:"json",
                 data : form_Data,
+                beforeSend:function(){
+                    $('body').loading();
+                },
+                complete:function(){
+                    $('body').loading('stop');
+                },
                 success:function(data){
                     swal_success('Produk updated');
                     setTimeout(function () {

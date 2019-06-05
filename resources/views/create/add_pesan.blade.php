@@ -7,7 +7,6 @@
         <li class="breadcrumb-item ">Pesanan</li>
         <li class="breadcrumb-item ">Tambah Pesanan</li>
     </ol>
-
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
@@ -223,6 +222,12 @@
                 url:"/addPesan",
                 dataType:"json",
                 data : formdata,
+                beforeSend:function(){
+                    $('body').loading();
+                },
+                complete:function(){
+                    $('body').loading('stop');
+                },
                 success:function(data){
                     swal_success('Order saved');
                     setTimeout(function () {

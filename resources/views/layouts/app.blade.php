@@ -22,6 +22,7 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/css/sb-admin.css')}}" rel="stylesheet">
   <link href="{{ asset('assets/css/sweetalert2.min.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/loading/loading.css')}}" rel="stylesheet">
   <style>
     .scroll{
       overflow-y: scroll;
@@ -51,8 +52,8 @@
       width: 96%;
     }
     .card-header{
-      background: #0d47a1;
-      color: white;
+      background: #e9ecef;
+      /* color: white; */
       border-bottom: 2px solid #ffb300;
     }
   </style>
@@ -61,7 +62,7 @@
 <body id="page-top">
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="index.html">Catat Basic Order</a>
+    <a class="navbar-brand mr-1" href="/">Catat Basic Order</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -212,6 +213,7 @@
   <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
   <script src="{{ asset('assets/js/dropzone.js') }}"></script>
   <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
+  <script src="{{ asset('assets/loading/loading.js')}}"></script>
 
   <!-- Page level plugin JavaScript-->
   <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
