@@ -56,6 +56,9 @@
       /* color: white; */
       border-bottom: 2px solid #ffb300;
     }
+    .right{
+      float: right;
+    }
   </style>
 </head>
 

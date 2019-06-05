@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('content')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-        <a href="#">Data Master</a>
-        </li>
-        <li class="breadcrumb-item ">Pesanan</li>
-        <li class="breadcrumb-item ">{{$title}}</li>
-    </ol>
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-6">
 
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <a href="/pesan" class="btn btn-danger" style="float:right"><i class="fa fa-arrow-left"></i> Kembali</a>
+        </div>
+    </div>
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
