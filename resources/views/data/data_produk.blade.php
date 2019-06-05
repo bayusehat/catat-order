@@ -67,11 +67,13 @@
                         "id_produk": id
                     },
                     success:function(data){
-                        alert(data.msg);
-                        window.location.reload();
+                        swal_success('Produk with '+id+' deleted!');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1000);
                     },
                     error:function(data){
-                        alert(data.msg);
+                        swal_failed('Somthing wrong!');
                     }
                 })
             }

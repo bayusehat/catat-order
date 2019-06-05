@@ -6,17 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Nota Pembelian - {{$penjualan->kode_penjualan}}</title>
     <style>
-        @font-face {
-            font-family: 'Open Sans';
-            font-style: normal;
-            font-weight: normal;
-            src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
-        }
-        .line-head{
+        .line-head-first{
             background: #ffb300;
             width: 100%;
-            height: 30px;
-            margin: 10px 0px 10px 0px;
+            height: 20px;
+            margin-top:10px;
+        }
+        .line-head-second{
+            background: #0d47a1;
+            width: 100%;
+            height: 15px;
+        }
+        .line-head-third{
+            background: #cfd8dc;
+            width: 100%;
+            height: 5px;
+            margin-bottom:10px;
         }
         .text-right{
             text-align: right;
@@ -42,6 +47,7 @@
             background: #0d47a1;
             text-transform: uppercase;
             color: #ffffff;
+            border-bottom: 3px solid #ffb300;
         }
         #table-detail-order tr td{
             border : 1px solid lightgrey;
@@ -54,28 +60,30 @@
 <body>
     <table width="100%" id="table-head">
         <tr>
-            <td rowspan="3"><h1 class="logo">BASICCLASS.CO</h1></td>
+            <td rowspan="3"><img src="{{public_path().'/assets/icon/logobasic.png'}}" alt="logo" width="300px"></td>
             <td class="text-right">@basicclass.co</td>
             <td align="right"><img src="{{public_path().'/assets/icon/instagram.png'}}" alt="instagram" width="15px"></td>
         </tr>
         <tr>
             <td class="text-right">+62 8954 6479 1632</td>
-            <td align="right"><img src="{{public_path().'/assets/icon/icon.png'}}" alt="instagram" width="15px"></td>
+            <td align="right"><img src="{{public_path().'/assets/icon/icon.png'}}" alt="phone" width="15px"></td>
         </tr>
         <tr>
             <td class="text-right">Surabaya, Indonesia</td>
-            <td align="right"><img src="{{public_path().'/assets/icon/phone.png'}}" alt="instagram" width="15px"></td>
+            <td align="right"><img src="{{public_path().'/assets/icon/phone.png'}}" alt="maps" width="15px"></td>
         </tr>
     </table>
-    <div class="line-head"></div>
+    <div class="line-head-first"></div>
+    <div class="line-head-second"></div>
+    <div class="line-head-third"></div>
     <table width="100%" cellpadding="5">
         <tr>
             <td>Penjualan No.</td>
             <td>:</td>
             <td>{{$penjualan->kode_penjualan}}</td>
-            <td>Tanggal Order</td>
+            <td>Weight</td>
             <td>:</td>
-            <td>{{date('d F Y',strtotime($penjualan->tanggal_penjualan))}}</td>
+            <td>{{$penjualan->weight}} gram</td>
         </tr>
         <tr>
             <td>Nama</td>
@@ -86,12 +94,17 @@
             <td>{{$penjualan->nomor_telepon}}</td>
         </tr>
         <tr>
-            <td>Alamat</td>
+            <td>Tanggal Order</td>
             <td>:</td>
-            <td>{{$penjualan->alamat_pembeli}}</td>
+            <td>{{date('d F Y',strtotime($penjualan->tanggal_penjualan))}}</td>
             <td>Status</td>
             <td>:</td>
             <td>{{$penjualan->status}}</td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>:</td>
+            <td colspan="3">{{$penjualan->alamat_pembeli}}</td>
         </tr>
     </table>
     <br>

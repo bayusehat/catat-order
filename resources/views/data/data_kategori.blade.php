@@ -118,10 +118,13 @@
                         "nama_kategori_produk" : $("#nama_kategori_produk").val()
                     },
                     success:function(data){
-                        alert(data.msg);
+                        swal_success('Kategori produk saved!');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1000);
                     },
                     error:function(data){
-                        alert(data.msg);
+                        swal_failed('Something wrong!');
                     }
                 })
             }

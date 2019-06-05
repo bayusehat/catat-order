@@ -189,7 +189,7 @@
                     '<input type="hidden" name="profit['+i+']" value="'+profit+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="qty['+i+']" value="'+qty+'" class="form-control quantity" onkeyup="quantity()">'+
+                    '<input type="number" name="qty['+i+']" value="'+qty+'" min="1" class="form-control quantity" onkeyup="quantity()">'+
                 '</td>'+
                 '<td>'+
                     '<input type="number" name="subtotal['+i+']" value="'+subtotal+'" class="form-control subtotal">'+
@@ -224,11 +224,13 @@
                 dataType:"json",
                 data : formdata,
                 success:function(data){
-                    alert('Order saved');
-                    window.location = "/pesan";
+                    swal_success('Order saved');
+                    setTimeout(function () {
+                        window.location = "/pesan";
+                    },1000);
                 },
                 error:function(data){
-                    alert(data.msg);
+                    swal_failed('Something wrong! please check your input');
                 }
             })
         }else{

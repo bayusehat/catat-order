@@ -40,7 +40,7 @@
                                         <td>{{ $row->tujuan }}</td>
                                         <td>Rp {{ number_format($row->total) }}</td>
                                         <td>
-                                                <a href="/cetakNota/{{$row->id_penjualan}}" class="btn btn-primary"><i class="fa fa-file"></i></a>
+                                                <a href="/cetakNota/{{$row->id_penjualan}}" class="btn btn-primary" target="_blank"><i class="fa fa-file"></i></a>
                                             <a href="/editPesanan/{{$row->id_penjualan}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
                                             <a href="javascript:void(0)" class="btn btn-danger" onclick="deletePesanan({{$row->id_penjualan}})"><i class="fa fa-trash"></i></a>
                                         </td>

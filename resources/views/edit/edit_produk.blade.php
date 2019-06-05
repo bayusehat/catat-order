@@ -105,10 +105,13 @@
                 dataType:"json",
                 data : form_Data,
                 success:function(data){
-                    alert(data.msg);
+                    swal_success('Produk updated');
+                    setTimeout(function () {
+                        window.location = "/pesan";
+                    },1000);
                 },
                 error:function(data){
-                    alert(data.msg);
+                    swal_failed('Something wrong!');
                 }
             })
         }

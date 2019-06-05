@@ -78,10 +78,13 @@
                     processData: false,
                     data:new FormData(this),
                     success: function (data) {
-                        alert('Image uploaded');
+                        swal_success('Produk image uploaded!');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1000);
                     },
                     error: function (error) {
-                      alert('Error');
+                        swal_failed('Something wrong!');
                     }
                 })
             }

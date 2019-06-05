@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="">Weight (kg)</label>
+                                <label for="">Weight (gram)</label>
                                 <input type="text" name="weight" id="weight" class="form-control" value="{{$penjualan->weight}}">
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                                                     <input type="hidden" name="profit[]" value="{{$row->profit}}" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="qty[]" value="{{$row->quantity}}" class="form-control quantity" onkeyup="quantity()">
+                                                    <input type="number" name="qty[]" value="{{$row->quantity}}" min="1" class="form-control quantity" onkeyup="quantity()">
                                                 </td>
                                                 <td>
                                                     <input type="number" name="subtotal[]" value="{{$row->subtotal}}" class="form-control subtotal">
@@ -264,11 +264,13 @@
                     "id_detail_penjualan" : id
                 },
                 success:function(data){
-                    alert(data.msg);
-                    window.location.reload();
+                    swal_success('Order detail deleted!');
+                    setTimeout(function () {
+                        window.location = "/pesan";
+                    },1000);
                 },
                 error:function(data){
-                    alert('Error');
+                   swal_error('Something wrong!')
                 }
             });
         }else{
@@ -288,11 +290,13 @@
                 dataType:"json",
                 data : formData,
                 success:function(data){
-                    alert('Order updated');
-                    window.location.reload();
+                    swal_success('Order updated');
+                    setTimeout(function () {
+                        window.location.reload();
+                    },1000);
                 },
                 error:function(data){
-                    alert('Error');
+                    swal_failed('Something wrong!');
                 }
             })
         }

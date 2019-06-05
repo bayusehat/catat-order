@@ -48,3 +48,6 @@ Route::get('/storage/{filename}', function ($filename) {
     $content = Storage::disk('local')->put('filename',$filename);
     return $content;
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

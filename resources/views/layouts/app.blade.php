@@ -21,6 +21,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/css/sb-admin.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/css/sweetalert2.min.css')}}" rel="stylesheet">
   <style>
     .scroll{
       overflow-y: scroll;
@@ -48,6 +49,11 @@
       position: absolute;
       z-index: 1;
       width: 96%;
+    }
+    .card-header{
+      background: #0d47a1;
+      color: white;
+      border-bottom: 2px solid #ffb300;
     }
   </style>
 </head>
@@ -205,6 +211,7 @@
   <!-- Core plugin JavaScript-->
   <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
   <script src="{{ asset('assets/js/dropzone.js') }}"></script>
+  <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
 
   <!-- Page level plugin JavaScript-->
   <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
@@ -220,22 +227,39 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-  @yield('js');
   <script>
-    // $(document).ready(function(){
-    //   $.ajax({
-    //     type :"GET",
-    //     url : "/getCity",
-    //     dataType:"json",
-    //     success:function(data){
-    //       console.log(data);
-    //     },
-    //     error:function(data){
-    //       console.log(data);
-    //     }
-    //   })
-    // })
+    function swal_success(msg){
+      swal({
+        title: "Success",
+        text: msg,
+        timer: 2500,
+        showConfirmButton: false,
+        type: 'success'
+      });
+    }
+
+    function swal_failed(msg){
+      swal({
+        title: "Error",
+        text: msg,
+        timer: 2500,
+        showConfirmButton: false,
+        type: 'error'
+      });
+    }
+
+    function swal_info(msg){
+      swal({
+        title: "Warning",
+        text: msg,
+        timer: 2500,
+        showConfirmButton: false,
+        type: 'warning'
+      });
+    }
   </script>
+  @yield('js');
+  
 </body>
 
 </html>

@@ -105,11 +105,14 @@
                 dataType : "json",
                 data : form_Data,
                 success:function(data){
-                    alert(data.msg);
-                    $('form').trigger('reset');
+                    swal_success('Produk saved');
+                    setTimeout(function () {
+                        $('form').trigger('reset');
+                    },1000);
+                    $("#nama_produk").focus();
                 },
                 error:function(data){
-                    console.log(data.msg)
+                   swal_failed('Something wrong!');
                 }
             })
           }else{
