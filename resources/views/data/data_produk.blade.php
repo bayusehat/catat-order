@@ -38,9 +38,9 @@
                                         <td>{{ $row->nama_kategori_produk }}</td>
                                         <td>Rp {{ number_format($row->harga_jual) }}</td>
                                         <td>
-                                            <a href="/editProduk/{{$row->id_produk}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
-                                            <a href="/tambahImgProduk/{{$row->id_produk}}" class="btn btn-primary"><i class="fa fa-image"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-danger" onclick="deleteProduk({{$row->id_produk}})"><i class="fa fa-trash"></i></a>
+                                            <a href="/editProduk/{{$row->id_produk}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                                            <a href="/tambahImgProduk/{{$row->id_produk}}" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteProduk({{$row->id_produk}})"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

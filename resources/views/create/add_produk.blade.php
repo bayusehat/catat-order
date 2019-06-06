@@ -114,9 +114,8 @@
                 success:function(data){
                     swal_success('Produk saved');
                     setTimeout(function () {
-                        $('form').trigger('reset');
+                        window.location = "/produk";
                     },1000);
-                    $("#nama_produk").focus();
                 },
                 error:function(data){
                    swal_failed('Something wrong!');

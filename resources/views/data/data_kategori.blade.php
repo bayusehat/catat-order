@@ -32,8 +32,8 @@
                                     <tr>
                                         <td>{{ $row->nama_kategori_produk }}</td>
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditKategori" class="btn btn-info" onclick="getKategori({{$row->id_kategori_produk}})"><i class="fa fa-edit"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-danger" onclick="deleteKategoriProduk({{$row->id_kategori_produk}})"><i class="fa fa-trash"></i></a>
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditKategori" class="btn btn-info btn-sm" onclick="getKategori({{$row->id_kategori_produk}})"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteKategoriProduk({{$row->id_kategori_produk}})"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

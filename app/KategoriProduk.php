@@ -18,7 +18,7 @@ class KategoriProduk extends Model
                 c.id_kategori_produk, c.nama_kategori_produk
             '))
             ->where(function($query) use ($q) {
-                $query->where('c.nama_kategori_produk', 'like', "%$q%");
+                $query->where('c.nama_kategori_produk', 'like', "%$q%")->where('c.deleted','0');
             })
             ->get();
     }

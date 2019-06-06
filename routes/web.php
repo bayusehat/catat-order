@@ -42,6 +42,7 @@ Route::any('/deleteOrderDetail/{id}', 'PesanController@deleteOrderDetail');
 Route::any('/deletePesanan/{id}', 'PesanController@destroy');
 Route::any('/cetakNota/{id}', 'PesanController@cetakNota');
 Route::any('/updatePesanan/{id}', 'PesanController@update');
+Route::any('/changeStatus/{id}', 'PesanController@changeStatus');
 //Show Image fron Storage
 Route::get('/storage/{filename}', function ($filename) {
     $path = 'uploads/'.$filename;

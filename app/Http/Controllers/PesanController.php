@@ -19,7 +19,7 @@ class PesanController extends Controller
     public function index()
     {
         $title = 'Data Pesanan';
-        $pesans = Pesan::where('deleted','=','0')->orderBy('tanggal_penjualan','desc')->get();
+        $pesans = Pesan::where('deleted','=','0')->orderBy('created','desc')->get();
         return view('data.data_pesan',compact('pesans','title'));
     }
 
@@ -353,5 +353,20 @@ class PesanController extends Controller
 
         $this->generate_total($detail->id_penjualan);
         return response()->json(['msg' => 'Items deleted']);
+    }
+
+    public function changeStatus($id_penjualan)
+    {
+        $pesan = Pesan::where('id_penjualan',$id_penjualan)->first();
+        if($pesan->status == 'Belum Terbayar'){
+          Pesan::where('id_penjualan',$id_penjualan)->update([
+            'status' => 'Lunas'
+          ]);
+        }else{
+          Pesan::where('id_penjualan',$id_penjualan)->update([
+            'status' => 'Belum Terbayar'
+          ]);
+        }
+        return response()->json(['msg' => 'Status updated']);
     }
 }
