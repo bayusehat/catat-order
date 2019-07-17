@@ -140,13 +140,13 @@
           <span>Data Master</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <h6 class="dropdown-header">Produk:</h6>
+          <label class="dropdown-header">Produk:</label>
           <a class="dropdown-item" href="/produk">Produk</a>
           <a class="dropdown-item" href="/kategori">Kategori Produk</a>
           <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">Transaksi:</h6>
+          <label class="dropdown-header">Transaksi:</label>
           <a class="dropdown-item" href="/pesan">Pesanan</a>
-          {{-- <a class="dropdown-item" href="blank.html"></a> --}}
+          <a class="dropdown-item" href="/pengeluaran">Pengeluaran</a>
         </div>
       </li>
       <li class="nav-item">

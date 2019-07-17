@@ -27,6 +27,18 @@ class ProductController extends Controller
         return view('data/data_produk',compact('products','title'));
     }
 
+    public function ajaxData()
+    {
+       $products = DB::table('ct_produk')
+                            ->join('ct_kategori_produk','ct_produk.id_kategori_produk','=','ct_kategori_produk.id_kategori_produk')
+                            ->select('ct_produk.*','ct_kategori_produk.nama_kategori_produk')
+                            ->where('ct_produk.deleted','=','0')
+                            ->orderBy('ct_produk.id_produk','DESC')
+                            ->get();
+
+        return response()->json($products);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +59,7 @@ class ProductController extends Controller
         echo json_encode($kategoris);
     }
 
-    /**
+    /**;
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

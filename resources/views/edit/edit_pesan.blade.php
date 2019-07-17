@@ -17,64 +17,78 @@
                     @method('PUT')
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Tanggal Pesan</label>
                                 <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d',strtotime($penjualan->tanggal_penjualan))}}">
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Nama Pembeli</label>
                                 <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli" value="{{$penjualan->nama_pembeli}}">
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Nomor Handphone</label>
                                 <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" value="{{$penjualan->nomor_telepon}}">
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label for="">Alamat Pembeli</label>
-                                <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control" value="{{$penjualan->alamat_pembeli}}">
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label for="">Tujuan</label>
-                                <select name="tujuan" id="tujuan" class="form-control" style="width:100%">
-                                    <option value="{{$penjualan->id_tujuan}}">{{$penjualan->tujuan}}</option>
+                                <label for="">Alamat Pembeli</label>
+                                    <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control" value="{{$penjualan->alamat_pembeli}}">
+                                </div>
+                            </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for=""> Metode Pengiriman</label>
+                                <select name="metode_pengiriman" id="metode_pengiriman" class="form-control" onchange="change();">
+                                    <option value="{{$penjualan->metode_pengiriman}}"> {{$penjualan->metode_pengiriman}}</option>
+                                    <option value="Kirim"> Kirim</option>
+                                    <option value="COD"> COD</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label for="">Weight (gram)</label>
-                                <input type="text" name="weight" id="weight" class="form-control" value="{{$penjualan->weight}}">
+                    @if ($penjualan != 'COD')
+                        <div class="row" id="kirim">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="form-group">
+                                    <label for="">Tujuan</label>
+                                    <select name="tujuan" id="tujuan" class="form-control" style="width:100%">
+                                        <option value="{{$penjualan->id_tujuan}}">{{$penjualan->tujuan}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="form-group">
+                                    <label for="">Weight (gram)</label>
+                                    <input type="text" name="weight" id="weight" class="form-control" value="{{$penjualan->weight}}">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="form-group">
+                                    <label for="">Kurir</label>
+                                    <select name="kurir" id="kurir" class="form-control">
+                                        <option value="{{$penjualan->kurir}}">{{$penjualan->kurir}}</option>
+                                        <option value="jne">
+                                            JNE (REG)
+                                        </option>
+                                        <option value="pos">
+                                            POS Indonesia (Kilat Khusus)
+                                        </option>
+                                        <option value="tiki">
+                                            TIKI (ECO)
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label for="">Kurir</label>
-                                <select name="kurir" id="kurir" class="form-control">
-                                    <option value="{{$penjualan->kurir}}">{{$penjualan->kurir}}</option>
-                                    <option value="jne">
-                                        JNE (REG)
-                                    </option>
-                                    <option value="pos">
-                                        POS Indonesia (Kilat Khusus)
-                                    </option>
-                                    <option value="tiki">
-                                        TIKI (ECO)
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>     
+                    @else
+                        
+                    @endif     
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="form-group has-feedback has-search">
@@ -90,6 +104,7 @@
                             </div> --}}
                             <div id="product-list"></div>
                         <hr>
+                        <form>
                             <div class="scroll">
                                 <table class="table table-bordered table-striped" id="tableOrder">
                                     <thead>
@@ -112,6 +127,16 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="nama_produk[]" value="{{$row->nama_produk}}" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <select name="size[]" id="size" class="form-control">
+                                                        <option>{{$row->size}}</option>
+                                                        <option>S</option>
+                                                        <option>M</option>
+                                                        <option>L</option>
+                                                        <option>XL</option>
+                                                        <option>XXL</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <input type="number" name="harga_produk[]" value="{{$row->harga_produk}}" class="form-control harga_produk">
@@ -148,7 +173,31 @@
     <script>
         var i = 0;
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
-        console.log(csrf_token);
+
+        $(document).ready(function () {  
+            if($("#metode_pengiriman").val() != 'COD'){
+                $("#kirim").show();
+                $("#tujuan").attr('required',true);
+                $("#weight").attr('required',true);
+                $("#kurir").attr('required',true);
+            }else{
+                $("#kirim").hide();
+                $("#tujuan").attr('required',false);
+                $("#weight").attr('required',false);
+                $("#kurir").attr('required',false);
+            }
+            
+        })
+        function change() {
+            $("#metode_pengiriman").each(function () {  
+                var val = $(this).val();
+                if(val != 'COD'){
+                    $("#kirim").fadeIn('slow');
+                }else{
+                    $("#kirim").fadeOut('slow');
+                }
+            })
+        }
 
         $('#tujuan').select2({
         theme:'bootstrap',
@@ -210,21 +259,31 @@
         $("#fillProduct").append(
             '<tr>'+
                 '<td>'+
-                    '<input type="hidden" name="id_produk['+i+']" value="'+id+'" class="form-control">'+
-                    '<input type="text" name="kode_produk['+i+']" value="'+kode+'" class="form-control">'+
+                    '<input type="hidden" name="id_detail_penjualan[]" value="" class="form-control">'+
+                    '<input type="hidden" name="id_produk[]" value="'+id+'" class="form-control">'+
+                    '<input type="text" name="kode_produk[]" value="'+kode+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="text" name="nama_produk['+i+']" value="'+nama+'" class="form-control">'+
+                    '<input type="text" name="nama_produk[]" value="'+nama+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="harga_produk['+i+']" value="'+harga+'" class="form-control harga_produk">'+
-                    '<input type="hidden" name="profit['+i+']" value="'+profit+'" class="form-control">'+
+                    '<select class="form-control" name="size[]">'+
+                        '<option>S</option>'+
+                        '<option>M</option>'+
+                        '<option>L</option>'+
+                        '<option>XL</option>'+
+                        '<option>XXL</option>'+
+                    '</select>'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="qty['+i+']" value="'+qty+'" class="form-control quantity" onkeyup="quantity()">'+
+                    '<input type="number" name="harga_produk[]" value="'+harga+'" class="form-control harga_produk">'+
+                    '<input type="hidden" name="profit[]" value="'+profit+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="subtotal['+i+']" value="'+subtotal+'" class="form-control subtotal">'+
+                    '<input type="number" name="qty[]" value="'+qty+'" class="form-control quantity" onkeyup="quantity()">'+
+                '</td>'+
+                '<td>'+
+                    '<input type="number" name="subtotal[]" value="'+subtotal+'" class="form-control subtotal">'+
                 '</td>'+
                 '<td>'+
                     '<button type="button" class="btn btn-danger btn-block del"><i class="fa fa-trash"></i></button>'+
@@ -264,9 +323,9 @@
                     "id_detail_penjualan" : id
                 },
                 success:function(data){
-                    swal_success('Order detail deleted!');
+                    // swal_success('Order detail deleted!');
                     setTimeout(function () {
-                        window.location = "/pesan";
+                        window.location.reload();
                     },1000);
                 },
                 error:function(data){

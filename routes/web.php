@@ -49,6 +49,11 @@ Route::get('/storage/{filename}', function ($filename) {
     $content = Storage::disk('local')->put('filename',$filename);
     return $content;
 });
+//Pengeluaran Route
+Route::get('/pengeluaran','PengeluaranController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//AjaxData
+Route::get('/dataProdukAjax','ProductController@ajaxData');

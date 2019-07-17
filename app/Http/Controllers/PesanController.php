@@ -138,20 +138,21 @@ class PesanController extends Controller
           'nama_pembeli' => $request->nama_pembeli,
           'nomor_telepon' => $request->nomor_hp,
           'alamat_pembeli' => $request->alamat_pembeli,
-          'id_tujuan' => $request->tujuan,
-          'type_tujuan' => '1',
-          'tujuan' => '1',
-          'weight' => $request->weight,
-          'ongkos_kirim' => '1',
-          'kurir' => $request->kurir,
+          'metode_pengiriman' => $request->metode_pengiriman,
+          'id_tujuan' => 0,
+          'type_tujuan' => 0,
+          'tujuan' => 0,
+          'weight' => 0,
+          'ongkos_kirim' => 0,
+          'kurir' => "",
           'id_user' => '1',
-          'total' => '0'
+          'total' => 0
         ]);
         $id = $penjualan->id;
         $detail = array();
 
         foreach ($request->kode_produk as $i => $item) {
-            $profit[$i] = $request->qty[$i]*$request->profit[$i];
+          $profit[$i] = $request->qty[$i]*$request->profit[$i];
           $detail[] = array(
             'id_produk' => $request->id_produk[$i],
             'kode_produk' => $request->kode_produk[$i],
@@ -159,22 +160,14 @@ class PesanController extends Controller
             'harga_produk' => $request->harga_produk[$i],
             'subtotal' => $request->subtotal[$i],
             'quantity' => $request->qty[$i],
-            'size' => 'X',
+            'size' => $request->size[$i],
             'profit' => $profit[$i],
             'id_penjualan' => $id 
           );
         }
-
         $penjualan_detail = DetailPesan::insert($detail);
-
         $temp_total = $this->generate_total($id);
-        $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
-        $this->getCityName($request->tujuan,$id);
-
-        Pesan::where('id_penjualan',$id)->update([
-          'total' => $temp_total+$ongkir
-        ]);
-        
+        $this->getFinal($id,$temp_total,$request->metode_pengiriman,$request->tujuan,$request->weight,$request->kurir);
         //JSON result
         $data['data'] = $penjualan;
         $data['data']['detail'] = $detail;
@@ -256,7 +249,7 @@ class PesanController extends Controller
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
         $pdf = PDF::loadView('layouts.nota',compact('penjualan','title','details'));
         $pdf->setPaper('a4','portrait');
-        return $pdf->stream('Nota Pembelian - '.$penjualan->kode_penjualan.' / '. $penjualan->nama_pembeli);
+        return $pdf->stream('Nota Pembelian - '.$penjualan->kode_penjualan.' / '. $penjualan->nama_pembeli.'.pdf');
     }
 
     /**
@@ -284,48 +277,85 @@ class PesanController extends Controller
         'nama_pembeli' => $request->nama_pembeli,
         'nomor_telepon' => $request->nomor_hp,
         'alamat_pembeli' => $request->alamat_pembeli,
-        'id_tujuan' => $request->tujuan,
-        'type_tujuan' => '1',
-        'tujuan' => '1',
-        'weight' => $request->weight,
+        'metode_pengiriman' => $request->metode_pengiriman,
+        'id_tujuan' => 0,
+        'type_tujuan' => 0,
+        'tujuan' => 0,
+        'weight' => 0,
         'ongkos_kirim' => '1',
-        'kurir' => $request->kurir,
+        'kurir' => 0,
         'id_user' => '1',
         'total' => '0'
       ]);
       $detail = array();
-
-      foreach ($request->kode_produk as $i => $item) {
+      foreach ($request->kode_produk as $i => $item) { 
+        $cek = DetailPesan::where('id_produk',$request->id_produk[$i])->where('size',$request->size[$i])->count();
+        if($cek){
           $profit[$i] = $request->qty[$i]*$request->profit[$i];
-        $detail = array(
-          'id_produk' => $request->id_produk[$i],
-          'kode_produk' => $request->kode_produk[$i],
-          'nama_produk' => $request->nama_produk[$i],
-          'harga_produk' => $request->harga_produk[$i],
-          'subtotal' => $request->subtotal[$i],
-          'quantity' => $request->qty[$i],
-          'size' => 'X',
-          'profit' => $profit[$i],
-          'id_penjualan' => $id 
-        );
-        DetailPesan::where('id_penjualan',$id)->update($detail);
+            $detail = array(
+              'id_detail_penjualan' =>  $request->id_detail_penjualan[$i],
+              'id_produk' => $request->id_produk[$i],
+              'kode_produk' => $request->kode_produk[$i],
+              'nama_produk' => $request->nama_produk[$i],
+              'harga_produk' => $request->harga_produk[$i],
+              'subtotal' => $request->subtotal[$i],
+              'quantity' => $request->qty[$i],
+              'size' => $request->size[$i],
+              'profit' => $profit[$i],
+              'id_penjualan' => $id 
+            );
+          DetailPesan::where('id_detail_penjualan',$request->id_detail_penjualan[$i])->update($detail);
+        }else{
+          $profit[$i] = $request->qty[$i]*$request->profit[$i];
+            $create = array(
+              'id_produk' => $request->id_produk[$i],
+              'kode_produk' => $request->kode_produk[$i],
+              'nama_produk' => $request->nama_produk[$i],
+              'harga_produk' => $request->harga_produk[$i],
+              'subtotal' => $request->subtotal[$i],
+              'quantity' => $request->qty[$i],
+              'size' => $request->size[$i],
+              'profit' => $profit[$i],
+              'id_penjualan' => $id 
+            );
+          DetailPesan::insert($create);
+        }
       }
-
       // $penjualan_detail = DetailPesan::insert($detail);
-
       $temp_total = $this->generate_total($id);
-      $ongkir = $this->getCost($id,$request->tujuan,$request->weight,$request->kurir);
-      $this->getCityName($request->tujuan,$id);
-
-      Pesan::where('id_penjualan',$id)->update([
-        'total' => $temp_total+$ongkir
-      ]);
+      $this->getFinal($id,$temp_total,$request->metode_pengiriman,$request->tujuan,$request->weight,$request->kurir);
       
       //JSON result
       $data['data'] = $penjualan;
       // $data['data']['detail'] = $detail;
 
       return response()->json($data);
+    }
+
+    public function getFinal($id,$temp_total,$metode_pengiriman,$tujuan,$weight,$kurir)
+    {
+      if($metode_pengiriman != 'COD'){
+        $ongkir = $this->getCost($id,$tujuan,$weight,$kurir);
+        $this->getCityName($tujuan,$id);
+        Pesan::where('id_penjualan',$id)->update([
+          'weight' => $weight,
+          'kurir' => $kurir,
+          'id_tujuan' => $tujuan
+        ]);
+      }else{
+        Pesan::where('id_penjualan',$id)->update([
+          'weight' => 0,
+          'kurir' =>"",
+          'id_tujuan' => 0,
+        ]);
+        $ongkir = 0;
+      }
+    
+      $final = Pesan::where('id_penjualan',$id)->update([
+        'total' => $temp_total+$ongkir
+      ]);
+
+      return $final;
     }
 
     /**

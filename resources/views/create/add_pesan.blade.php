@@ -17,32 +17,44 @@
                     @method('POST')
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Tanggal Pesan</label>
-                                <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d')}}">
+                                <input type="text" class="form-control" id="tanggal_penjualan" name="tanggal_penjualan" value="{{date('Y-m-d H:i:s')}}" readonly>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Nama Pembeli</label>
-                                <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli">
+                                <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli" required>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Nomor Handphone</label>
-                                <input type="text" class="form-control" id="nomor_hp" name="nomor_hp">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <label for="">Alamat Pembeli</label>
-                                <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control">
+                                <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="">Alamat Pembeli</label>
+                                    <input type="text" name="alamat_pembeli" id="alamat_pembeli" class="form-control" required>
+                                </div>
+                            </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for=""> Metode Pengiriman</label>
+                                <select name="metode_pengiriman" id="metode_pengiriman" class="form-control" onchange="change();" required>
+                                    <option value=""> Pilih metode pengiriman</option>
+                                    <option value="Kirim"> Kirim</option>
+                                    <option value="COD"> COD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="kirim">
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label for="">Tujuan</label>
@@ -75,6 +87,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="form-group has-feedback has-search">
+                                <label for=""> Search Produk (ketik nama produk) </label>
 								<span class="glyphicon glyphicon-search form-control-feedback"></span>
                                 <input type="text" class="form-control" id="searchProduk" name="searchProduk" placeholder="Search Produk">
 								    <div id="suggestions">
@@ -93,6 +106,7 @@
                                         <tr>
                                             <th>Kode Produk</th>
                                             <th>Nama Produk</th>
+                                            <th>Size Produk</th>
                                             <th>Harga</th>
                                             <th>Qty</th>
                                             <th>Subtotal</th>
@@ -119,6 +133,26 @@
 @endsection
 @section('js')
     <script>
+        $(document).ready(function(){
+            $("#kirim").hide();
+        });
+        function change() {
+            $("#metode_pengiriman").each(function () {  
+                var val = $(this).val();
+                if(val != 'COD'){
+                    $("#kirim").fadeIn('slow');
+                    $("#tujuan").attr('required',true);
+                    $("#weight").attr('required',true);
+                    $("#kurir").attr('required',true);
+                }else{
+                    $("#kirim").fadeOut('slow');
+                    $("#tujuan").attr('required',false);
+                    $("#weight").attr('required',false);
+                    $("#kurir").attr('required',false);
+                }
+            })
+        }
+        
         var i = 0;
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         console.log(csrf_token);
@@ -178,21 +212,30 @@
         $("#fillProduct").append(
             '<tr>'+
                 '<td>'+
-                    '<input type="hidden" name="id_produk['+i+']" value="'+id+'" class="form-control">'+
-                    '<input type="text" name="kode_produk['+i+']" value="'+kode+'" class="form-control">'+
+                    '<input type="hidden" name="id_produk[]" value="'+id+'" class="form-control">'+
+                    '<input type="text" name="kode_produk[]" value="'+kode+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="text" name="nama_produk['+i+']" value="'+nama+'" class="form-control">'+
+                    '<input type="text" name="nama_produk[]" value="'+nama+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="harga_produk['+i+']" value="'+harga+'" class="form-control harga_produk">'+
-                    '<input type="hidden" name="profit['+i+']" value="'+profit+'" class="form-control">'+
+                    '<select class="form-control" name="size[]">'+
+                        '<option>S</option>'+
+                        '<option>M</option>'+
+                        '<option>L</option>'+
+                        '<option>XL</option>'+
+                        '<option>XXL</option>'+
+                    '</select>'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="qty['+i+']" value="'+qty+'" min="1" class="form-control quantity" onkeyup="quantity()">'+
+                    '<input type="number" name="harga_produk[]" value="'+harga+'" class="form-control harga_produk">'+
+                    '<input type="hidden" name="profit[]" value="'+profit+'" class="form-control">'+
                 '</td>'+
                 '<td>'+
-                    '<input type="number" name="subtotal['+i+']" value="'+subtotal+'" class="form-control subtotal">'+
+                    '<input type="number" name="qty[]" value="'+qty+'" min="1" class="form-control quantity" onkeyup="quantity()">'+
+                '</td>'+
+                '<td>'+
+                    '<input type="number" name="subtotal[]" value="'+subtotal+'" class="form-control subtotal">'+
                 '</td>'+
                 '<td>'+
                     '<button type="button" class="btn btn-danger btn-block del"><i class="fa fa-trash"></i></button>'+
@@ -208,7 +251,7 @@
         $(this).closest("tr").remove();
     });
 
-    $("#btnAddPesanan").click(function(event){
+    $("#formAddPesanan").submit(function(event){
         event.preventDefault();
         var formdata= $('form').serialize();
         var token = $("input[name='_token']").val();

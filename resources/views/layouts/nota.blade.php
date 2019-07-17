@@ -96,7 +96,7 @@
         <tr>
             <td>Tanggal Order</td>
             <td>:</td>
-            <td>{{date('d F Y',strtotime($penjualan->tanggal_penjualan))}}</td>
+            <td>{{date('d F Y H:i:s',strtotime($penjualan->tanggal_penjualan))}}</td>
             <td>Status</td>
             <td>:</td>
             <td>{{$penjualan->status}}</td>
@@ -112,6 +112,7 @@
         <tr>
             <th>Kode Produk</th>
             <th>Nama Produk</th>
+            <th>Size Produk</th>
             <th>Harga</th>
             <th>Quantity</th>
             <th>Subtotal</th>
@@ -120,17 +121,18 @@
             <tr>
                 <td>{{$row->kode_produk}}</td>
                 <td>{{$row->nama_produk}}</td>
+                <td>{{$row->size}}</td>
                 <td>Rp {{number_format($row->harga_produk)}}</td>
                 <td>{{number_format($row->quantity)}}</td>
                 <td>Rp {{number_format($row->subtotal)}}</td>
             </tr>
         @endforeach
             <tr>
-                <td colspan="4" class="text-right last-title"><b>Ongkos Kirim</b></td>
+                <td colspan="5" class="text-right last-title"><b>Ongkos Kirim</b></td>
                 <td class="last">Rp {{number_format($penjualan->ongkos_kirim)}}</td>
             </tr>
             <tr>
-                <td colspan="4" class="text-right last-title"><b>Total</b></td>
+                <td colspan="5" class="text-right last-title"><b>Total</b></td>
                 <td class="last">Rp {{number_format($penjualan->total)}}</td>
             </tr>
        </table>
