@@ -114,7 +114,7 @@
                 success:function(data){
                     swal_success('Produk updated');
                     setTimeout(function () {
-                        window.location = "/pesan";
+                        window.location = "/produk";
                     },1000);
                 },
                 error:function(data){

@@ -289,7 +289,7 @@ class PesanController extends Controller
       ]);
       $detail = array();
       foreach ($request->kode_produk as $i => $item) { 
-        $cek = DetailPesan::where('id_produk',$request->id_produk[$i])->where('size',$request->size[$i])->count();
+        $cek = DetailPesan::where('id_produk',$request->id_produk[$i])->where('id_detail_penjualan',$request->id_detail_penjualan[$i])->count();
         if($cek){
           $profit[$i] = $request->qty[$i]*$request->profit[$i];
             $detail = array(

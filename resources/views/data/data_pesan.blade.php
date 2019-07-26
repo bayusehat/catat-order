@@ -37,7 +37,13 @@
                                         <td>{{ $row->kode_penjualan }}</td>
                                         <td>{{ $row->tanggal_penjualan }}</td>
                                         <td>{{ $row->nama_pembeli }}</td>
-                                        <td>{{ $row->tujuan }}</td>
+                                        <td>
+                                            @if ($row->id_tujuan != 0)
+                                                {{$row->tujuan}}
+                                            @else
+                                                {{'COD'}}
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($row->status == 'Belum Terbayar')
                                                 <div class="badge badge-danger">{{ $row->status }}</div>
