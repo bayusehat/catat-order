@@ -11,6 +11,7 @@
 |
 */
 Route::get('/login','LoginController@index');
+Route::post('/doLogin','Logincontroller@doLogin');
 //Dashboard Route
 Route::get('/','AdminController@index');
 Route::get('/testPdf','AdminController@test_pdf');

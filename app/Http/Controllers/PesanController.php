@@ -11,6 +11,12 @@ use PDF;
 
 class PesanController extends Controller
 {
+    public function logged()
+    {
+      if(session()->get('logged_in') != TRUE){
+        redirect('/');
+      };
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +24,7 @@ class PesanController extends Controller
      */
     public function index()
     {
+        $this->logged();
         $title = 'Data Pesanan';
         $pesans = Pesan::where('deleted','=','0')->orderBy('created','desc')->get();
         return view('data.data_pesan',compact('pesans','title'));
@@ -132,6 +139,7 @@ class PesanController extends Controller
      */
     public function store(Request $request)
     {
+        $this->logged();
         $penjualan = Pesan::create([
           'kode_penjualan' => rand(),
           'tanggal_penjualan' => $request->tanggal_penjualan,
@@ -236,6 +244,7 @@ class PesanController extends Controller
      */
     public function show($id)
     {
+      $this->logged();
         $penjualan = Pesan::where('id_penjualan',$id)->first();
         $title = 'Edit Pesanan '.$penjualan->kode_penjualan;
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
@@ -244,12 +253,13 @@ class PesanController extends Controller
 
     public function cetakNota($id)
     {
+      $this->logged();
         $penjualan = Pesan::where('id_penjualan',$id)->first();
         $title = 'Nota Pembelian '.$penjualan->kode_penjualan;
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
         $pdf = PDF::loadView('layouts.nota',compact('penjualan','title','details'));
         $pdf->setPaper('a4','portrait');
-        return $pdf->stream('Nota Pembelian - '.$penjualan->kode_penjualan.' / '. $penjualan->nama_pembeli.'.pdf');
+        return $pdf->stream('Nota Pembelian - '.$penjualan->kode_penjualan.' / '. $penjualan->nama_pembeli.'.pdf',0);
     }
 
     /**
@@ -272,6 +282,7 @@ class PesanController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->logged();
       $penjualan = Pesan::where('id_penjualan',$id)->update([
         'tanggal_penjualan' => $request->tanggal_penjualan,
         'nama_pembeli' => $request->nama_pembeli,
@@ -366,6 +377,7 @@ class PesanController extends Controller
      */
     public function destroy($id)
     {
+      $this->logged();
         $product = Pesan::where('id_penjualan', $id);
         $product->update([
           'deleted' => '1'

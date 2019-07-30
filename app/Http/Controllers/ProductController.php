@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\KategoriProduk;
 use App\DetailProduct;
+use Session;
 
 class ProductController extends Controller
 {
@@ -108,6 +109,7 @@ class ProductController extends Controller
                             ->join('ct_kategori_produk','ct_produk.id_kategori_produk','=','ct_kategori_produk.id_kategori_produk')
                             ->select('ct_produk.*','ct_kategori_produk.nama_kategori_produk')
                             ->where('ct_produk.deleted','=','0')
+                            ->where('ct_produk.id_produk','=',$id)
                             ->orderBy('ct_produk.id_produk','DESC')
                             ->first();
         return view('edit.edit_produk',compact('product','title'));

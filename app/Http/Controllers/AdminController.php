@@ -8,15 +8,22 @@ use App\Product;
 use App\KategoriProduk;
 use App\Pesan;
 use PDF;
+use Session;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
+        if(session()->get('logged_in') != TRUE){
+            return view('login');
+        };
+
         $title = 'Dashboard';
         $all_product = Product::where('deleted','=','0')->count();
         $all_kategori = KategoriProduk::where('deleted','=','0')->count();
         $all_pesanan = Pesan::where('deleted','=','0')->count();
+        // $sess = print_r(Session::all());
         $chart = $this->chartStats();
             foreach($chart as $data){
                 $jumlah[] = $data->m;

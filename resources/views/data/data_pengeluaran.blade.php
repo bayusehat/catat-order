@@ -10,7 +10,7 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
-          Data Kategori Produk</div>
+          Data Pengeluaran</div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
@@ -23,7 +23,9 @@
                     <table class="table table-bordered table-striped table-condensed" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Nama Produk</th>
+                                <th>Tanggal Pengeluaran</th>
+                                <th>Keterangan</th>
+                                <th>Total Pengeluaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

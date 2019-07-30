@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
 {
+    public function logged()
+    {
+      if(session()->get('logged_in') != TRUE){
+        redirect('/');
+      };
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,6 +19,7 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
+        $this->logged();
         $title = 'Data Pengeluaran';
         return view('data.data_pengeluaran',compact('title'));
     }

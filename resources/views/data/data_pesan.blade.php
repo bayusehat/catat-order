@@ -22,8 +22,8 @@
                         <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Kode Pesanan</th>
                                     <th>Tanggal</th>
+                                    <th>Kode Pesanan</th>
                                     <th>Customer</th>
                                     <th>Tujuan</th>
                                     <th>Status</th>
@@ -34,8 +34,8 @@
                             <tbody>
                                 @foreach ($pesans as $row)
                                     <tr>
-                                        <td>{{ $row->kode_penjualan }}</td>
                                         <td>{{ $row->tanggal_penjualan }}</td>
+                                        <td>{{ $row->kode_penjualan }}</td>
                                         <td>{{ $row->nama_pembeli }}</td>
                                         <td>
                                             @if ($row->id_tujuan != 0)
