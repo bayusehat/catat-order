@@ -23,13 +23,13 @@ class AdminController extends Controller
         $all_product = Product::where('deleted','=','0')->count();
         $all_kategori = KategoriProduk::where('deleted','=','0')->count();
         $all_pesanan = Pesan::where('deleted','=','0')->count();
-        // $sess = print_r(Session::all());
+        $sess = print_r(Session::all());
         $chart = $this->chartStats();
             foreach($chart as $data){
                 $jumlah[] = $data->m;
                 $nama[] = date('F Y',strtotime($data->d));
             }
-        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan','jumlah','nama'));
+        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan','jumlah','nama','sess'));
     }
 
     public function chartStats()
@@ -59,5 +59,16 @@ class AdminController extends Controller
         $title = 'Data Kategori';
         $kategoris = KategoriProduk::where('deleted','=','0')->orderBy('created','desc')->get();
         return $kategoris;
+    }
+
+    public function logout()
+    {   
+        Session::put('logged_in',FALSE);
+        Session::flush();
+        if(!session()->has('logged_in')){
+           return redirect('/'); 
+        }else{
+            return 'Error';
+        };
     }
 }

@@ -9,7 +9,7 @@ class PengeluaranController extends Controller
     public function logged()
     {
       if(session()->get('logged_in') != TRUE){
-        redirect('/');
+        return redirect('/');
       };
     }
     /**
@@ -19,7 +19,9 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $title = 'Data Pengeluaran';
         return view('data.data_pengeluaran',compact('title'));
     }

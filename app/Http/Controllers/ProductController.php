@@ -11,6 +11,12 @@ use Session;
 
 class ProductController extends Controller
 {
+    public function logged()
+    {
+        if(session()->get('logged_in') != TRUE){
+            return redirect('/');
+        };
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +24,9 @@ class ProductController extends Controller
      */
     public function index()
     {   
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $title = 'Data Produk';
         $products = DB::table('ct_produk')
                             ->join('ct_kategori_produk','ct_produk.id_kategori_produk','=','ct_kategori_produk.id_kategori_produk')
@@ -47,6 +56,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $title = 'Tambah Produk';
         $kategori = KategoriProduk::where('deleted','=','0')->get();
         return view('create.add_produk',compact('title','kategori'));
@@ -68,6 +80,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $this->validate($request,[
             'nama_produk' => 'required',
             'harga_produksi' => 'required',
@@ -104,6 +119,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $title = 'Edit Produk';
         $product = DB::table('ct_produk')
                             ->join('ct_kategori_produk','ct_produk.id_kategori_produk','=','ct_kategori_produk.id_kategori_produk')
@@ -135,6 +153,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $product = Product::where('id_produk',$id);
         $profit = $request->harga_jual - $request->harga_produksi;
         $product->update([
@@ -164,6 +185,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $product = Product::where('id_produk',$id);
         $product->update(['deleted' => '1']);
 
@@ -176,6 +200,9 @@ class ProductController extends Controller
 
     public function tambahImgProduk($id)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $product = Product::where('id_produk',$id)->first();
         $imgProduct = $this->getImgProduk($id);
         $title = "Tambah Foto Produk";
@@ -184,6 +211,9 @@ class ProductController extends Controller
 
     public function addImgProduk(Request $request)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $validation = $request->validate([
             'imgProduct.*' => 'required|file|image|mimes:jpeg,png'
         ]);
@@ -208,6 +238,9 @@ class ProductController extends Controller
 
     public function getImgProduk($id)
     {
+        if(!session()->has('logged_in')){
+            return redirect('/');
+          }
         $products = DetailProduct::where('id_produk',$id)->where('deleted','=','0')->get();
         return $products;
     }

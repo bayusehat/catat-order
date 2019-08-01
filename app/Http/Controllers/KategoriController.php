@@ -8,12 +8,6 @@ use App\KategoriProduk;
 
 class KategoriController extends Controller
 {
-    public function logged()
-    {
-      if(session()->get('logged_in') != TRUE){
-        redirect('/');
-      };
-    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +15,9 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+        }
         $title = 'Data Kategori';
         $kategoris = KategoriProduk::where('deleted','=','0')->orderBy('created','desc')->get();
         return view('data.data_kategori',compact('kategoris','title'));
@@ -45,7 +41,9 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+        }
         $this->validate($request,[
             'nama_kategori_produk' => 'required'
         ]);
@@ -71,7 +69,9 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+        }
         $json = [];
         $kategori = DB::table('ct_kategori_produk')
                       ->where('id_kategori_produk',$id)
@@ -100,7 +100,9 @@ class KategoriController extends Controller
      */
     public function update(Request $request)
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+        }
         $kategori = KategoriProduk::where('id_kategori_produk',$request->edit_id_kategori_produk);
         $kategori->update([
             'nama_kategori_produk' => $request->edit_nama_kategori_produk,
@@ -122,7 +124,9 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+            return redirect('/');
+        }
         $product = KategoriProduk::where('id_kategori_produk',$id);
         $product->update([
             'deleted' => '1'

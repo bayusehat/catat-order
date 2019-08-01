@@ -8,14 +8,15 @@ use App\Pesan;
 use App\Product;
 use App\DetailPesan;
 use PDF;
+use Session;
 
 class PesanController extends Controller
 {
     public function logged()
     {
-      if(session()->get('logged_in') != TRUE){
-        redirect('/');
-      };
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
     }
     /**
      * Display a listing of the resource.
@@ -24,10 +25,13 @@ class PesanController extends Controller
      */
     public function index()
     {
-        $this->logged();
+        if(!session()->has('logged_in')){
+          return redirect('/');
+        }
         $title = 'Data Pesanan';
+        $sess = print_r(Session::all());
         $pesans = Pesan::where('deleted','=','0')->orderBy('created','desc')->get();
-        return view('data.data_pesan',compact('pesans','title'));
+        return view('data.data_pesan',compact('pesans','title','sess'));
     }
 
     public function searchProduk(Request $request)
@@ -126,6 +130,9 @@ class PesanController extends Controller
      */
     public function create()
     {
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
         $title = "Tambah Pesanan";
         $city = $this->getCity();
         return view('create.add_pesan',compact('title','city'));
@@ -244,7 +251,9 @@ class PesanController extends Controller
      */
     public function show($id)
     {
-      $this->logged();
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
         $penjualan = Pesan::where('id_penjualan',$id)->first();
         $title = 'Edit Pesanan '.$penjualan->kode_penjualan;
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
@@ -253,7 +262,9 @@ class PesanController extends Controller
 
     public function cetakNota($id)
     {
-      $this->logged();
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
         $penjualan = Pesan::where('id_penjualan',$id)->first();
         $title = 'Nota Pembelian '.$penjualan->kode_penjualan;
         $details = DetailPesan::where('id_penjualan',$id)->where('deleted','=','0')->get();
@@ -282,7 +293,9 @@ class PesanController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->logged();
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
       $penjualan = Pesan::where('id_penjualan',$id)->update([
         'tanggal_penjualan' => $request->tanggal_penjualan,
         'nama_pembeli' => $request->nama_pembeli,
@@ -377,7 +390,9 @@ class PesanController extends Controller
      */
     public function destroy($id)
     {
-      $this->logged();
+      if(!session()->has('logged_in')){
+        return redirect('/');
+      }
         $product = Pesan::where('id_penjualan', $id);
         $product->update([
           'deleted' => '1'
