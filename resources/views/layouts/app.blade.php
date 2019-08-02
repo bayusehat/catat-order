@@ -22,6 +22,7 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/css/sb-admin.css')}}" rel="stylesheet">
   <link href="{{ asset('assets/css/sweetalert2.min.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/css/jquery-ui-1.12.1.css')}}" rel="stylesheet">
   <link href="{{ asset('assets/loading/loading.css')}}" rel="stylesheet">
   <style>
     .scroll{
@@ -217,6 +218,7 @@
   <script src="{{ asset('assets/js/dropzone.js') }}"></script>
   <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
   <script src="{{ asset('assets/loading/loading.js')}}"></script>
+  <script src="{{ asset('assets/js/jquery-ui-1.11.0.js') }}"></script>
 
   <!-- Page level plugin JavaScript-->
   <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>

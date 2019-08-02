@@ -20,13 +20,14 @@
             <hr>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <table class="table table-bordered table-striped table-condensed" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped table-condensed" id="dataProduk" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Kode Produk</th>
                                     <th>Nama Produk</th>
                                     <th>Kategori Produk</th>
                                     <th>Harga</th>
+                                    <th>Dibuat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -36,6 +37,7 @@
                                         <td>{{ $row->kode_produk }}</td>
                                         <td>{{ $row->nama_produk }}</td>
                                         <td>{{ $row->nama_kategori_produk }}</td>
+                                        <td>{{ $row->created }}
                                         <td>Rp {{ number_format($row->harga_jual) }}</td>
                                         <td>
                                             <a href="/editProduk/{{$row->id_produk}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
@@ -54,6 +56,10 @@
 @endsection
 @section('js')
     <script>
+        $('#dataProduk').DataTable( {
+            "order": [[ 3, "desc" ]]
+        } );
+
         function deleteProduk(id){
             var conf = confirm('Apakah anda yakin menghapus?');
 

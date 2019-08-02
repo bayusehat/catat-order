@@ -14,7 +14,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalAddKategori" class="btn btn-success" style="float:right"><i class="fa fa-plus"></i></a>
+                    <a href="/addPengeluaran" class="btn btn-success" style="float:right"><i class="fa fa-plus"></i></a>
                 </div>
             </div>
         <hr>

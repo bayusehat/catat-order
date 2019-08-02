@@ -19,7 +19,7 @@
             <hr>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped" id="dataPesan" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
@@ -74,6 +74,9 @@
 @endsection
 @section('js')
     <script>
+        $('#dataPesan').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
         function deletePesanan(id) {
             var conf = confirm('Apakah anda yakin untuk menghapus?');
 

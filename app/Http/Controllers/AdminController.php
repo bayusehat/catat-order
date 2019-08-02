@@ -23,13 +23,13 @@ class AdminController extends Controller
         $all_product = Product::where('deleted','=','0')->count();
         $all_kategori = KategoriProduk::where('deleted','=','0')->count();
         $all_pesanan = Pesan::where('deleted','=','0')->count();
-        $sess = print_r(Session::all());
+        $omset = DB::table('ct_penjualan')->select(DB::raw('SUM(total) as totals'))->where('deleted',0)->get();
         $chart = $this->chartStats();
             foreach($chart as $data){
                 $jumlah[] = $data->m;
                 $nama[] = date('F Y',strtotime($data->d));
             }
-        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan','jumlah','nama','sess'));
+        return view('dashboard',compact('title','all_kategori','all_product','all_pesanan','jumlah','nama','omset'));
     }
 
     public function chartStats()

@@ -7,7 +7,6 @@
             </li>
             <li class="breadcrumb-item active">Overview</li>
           </ol>
-          {{ $sess }}
           <!-- Icon Cards-->
           <div class="row">
             <div class="col-xl-3 col-sm-6 mb-3">
@@ -64,7 +63,10 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-life-ring"></i>
                   </div>
-                  <div class="mr-5">13 New Tickets!</div>
+                  <div class="mr-5">
+                    @foreach ($omset as $pendapatan)
+                     Rp {{ number_format($pendapatan->totals) }}
+                  @endforeach Omset</div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>

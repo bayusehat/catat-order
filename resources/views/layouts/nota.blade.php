@@ -96,7 +96,7 @@
         <tr>
             <td>Tanggal Order</td>
             <td>:</td>
-            <td>{{date('d F Y H:i:s',strtotime($penjualan->tanggal_penjualan))}}</td>
+            <td>{{ $penjualan->tanggal_penjualan }}</td>
             <td>Status</td>
             <td>:</td>
             <td>{{$penjualan->status}}</td>

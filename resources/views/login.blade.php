@@ -30,8 +30,8 @@
         <form id="formLogin">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-              <label for="inputEmail">Email address</label>
+              <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
+              <label for="inputEmail">Username</label>
             </div>
           </div>
           <div class="form-group">

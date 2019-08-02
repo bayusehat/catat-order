@@ -53,6 +53,7 @@ Route::get('/storage/{filename}', function ($filename) {
 });
 //Pengeluaran Route
 Route::get('/pengeluaran','PengeluaranController@index');
+Route::get('/addPengeluaran','PengeluaranController@create');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

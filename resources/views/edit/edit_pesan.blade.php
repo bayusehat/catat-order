@@ -11,7 +11,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
-              Tambah Pesanan</div>
+              Edit Pesanan</div>
             <div class="card-body">
                 <form method="POST" id="formEditPesanan">
                     @method('PUT')
@@ -111,6 +111,7 @@
                                         <tr>
                                             <th>Kode Produk</th>
                                             <th>Nama Produk</th>
+                                            <th>Size Produk</th>
                                             <th>Harga</th>
                                             <th>Qty</th>
                                             <th>Subtotal</th>

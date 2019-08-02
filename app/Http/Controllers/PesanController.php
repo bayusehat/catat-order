@@ -29,9 +29,8 @@ class PesanController extends Controller
           return redirect('/');
         }
         $title = 'Data Pesanan';
-        $sess = print_r(Session::all());
-        $pesans = Pesan::where('deleted','=','0')->orderBy('created','desc')->get();
-        return view('data.data_pesan',compact('pesans','title','sess'));
+        $pesans = Pesan::where('deleted','=','0')->orderBy('tanggal_penjualan','desc')->get();
+        return view('data.data_pesan',compact('pesans','title'));
     }
 
     public function searchProduk(Request $request)

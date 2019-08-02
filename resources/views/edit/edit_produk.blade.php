@@ -12,7 +12,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
-              Tambah Produk</div>
+              Edit Produk</div>
             <div class="card-body">
                 <form method="POST" id="formEditProduk">
                     @csrf

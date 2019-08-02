@@ -33,7 +33,8 @@ class PengeluaranController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Tambah Pengeluaran";
+        return view('create.add_pengeluaran',compact('title'));
     }
 
     /**
